@@ -61,7 +61,7 @@ public class Sprite {
 	| Character
 	|--------------------------------------------------------------------------
 	 */
-	//BALLOM
+	//BALLOON
 	public static Sprite balloom_left1 = new Sprite(DEFAULT_SIZE, 9, 0, SpriteSheet.tiles, 16, 16);
 	public static Sprite balloom_left2 = new Sprite(DEFAULT_SIZE, 9, 1, SpriteSheet.tiles, 16, 16);
 	public static Sprite balloom_left3 = new Sprite(DEFAULT_SIZE, 9, 2, SpriteSheet.tiles, 16, 16);
