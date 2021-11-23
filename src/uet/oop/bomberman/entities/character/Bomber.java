@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.character;
 import java.util.ArrayList;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.entities.BombSet.Bomb;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
@@ -22,14 +23,18 @@ public class Bomber extends Character {
      */
     protected int _timeBetweenPutBombs = 0;
 
+    private List<Bomb> bombs;
+
     public Bomber(int x, int y, Board board) {
         super(x, y, board);
         _input = _board.getInput();
         _sprite = Sprite.player_right;
+        bombs = _board.getBombs();
     }
 
     @Override
     public void update() {
+        bombsClear();
         if (!_alive) {
             afterKill();
             return;
@@ -42,6 +47,7 @@ public class Bomber extends Character {
 
         calculateMove();
 
+        placeBombConfirm();
     }
 
     @Override
@@ -170,5 +176,39 @@ public class Bomber extends Character {
                 }
                 break;
         }
+    }
+
+    private void placeBombConfirm() {
+        if(_input.space && Game.getBombRate() > 0 && _timeBetweenPutBombs < 0) {
+
+            int xt = Coordinates.pixelToTile(_x + _sprite.getSize() / 2);
+            int yt = Coordinates.pixelToTile( (_y + _sprite.getSize() / 2) - _sprite.getSize() );
+
+            plantBomb(xt,yt);
+            Game.addBombRate(-1);
+
+            _timeBetweenPutBombs = 30;
+        }
+    }
+
+    protected void plantBomb(int x, int y) {
+        // TODO: thực hiện tạo đối tượng bom, đặt vào vị trí (x, y)
+        Bomb b = new Bomb(x, y, _board);
+        _board.addBomb(b);
+        //Sound.play("BOM_SET");
+    }
+
+    private void bombsClear() {
+        Iterator<Bomb> bs = bombs.iterator();
+
+        Bomb b;
+        while (bs.hasNext()) {
+            b = bs.next();
+            if (b.isRemoved()) {
+                bs.remove();
+                Game.addBombRate(1);
+            }
+        }
+
     }
 }

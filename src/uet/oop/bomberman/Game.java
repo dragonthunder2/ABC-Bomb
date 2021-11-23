@@ -151,14 +151,6 @@ public class Game extends Canvas {
 			}
 		}
 	}
-	
-	public static double getBomberSpeed() {
-		return bomberSpeed;
-	}
-	
-	public static void addBomberSpeed(double i) {
-		bomberSpeed += i;
-	}
 
 	public void resetScreenDelay() {
 		_screenDelay = SCREENDELAY;
@@ -176,7 +168,29 @@ public class Game extends Canvas {
 		_paused = true;
 	}
 
-    public static void setBomberSpeed(double bomberSpeed) {
+	//--------------------------Bomb Setup----------------------------------------------------//
+
+	public static double getBomberSpeed() {
+		return bomberSpeed;
+	}
+
+	public static void addBomberSpeed(double i) {
+		bomberSpeed += i;
+	}
+
+	public static void setBomberSpeed(double bomberSpeed) {
         Game.bomberSpeed = bomberSpeed;
     }
+
+	public static int getBombRadius() {
+		return bombRadius;
+	}
+
+	public static int getBombRate() {
+		return bombRate;
+	}
+
+	public static void addBombRate(int i) {
+		bombRate += i;
+	}
 }
