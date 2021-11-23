@@ -1,5 +1,6 @@
 package uet.oop.bomberman;
 
+import uet.oop.bomberman.entities.BombSet.Bomb;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
@@ -19,6 +20,7 @@ import java.util.List;
  * Quản lý thao tác điều khiển, load level, render các màn hình của game
  */
 public class Board implements IRender {
+
 	protected LevelLoader _levelLoader;
 	protected Game _game;
 	protected Keyboard _input;
@@ -47,6 +49,7 @@ public class Board implements IRender {
 		updateEntities();
 		updateCharacters();
 		detectEndGame();
+		updateBombs();
 		
 		for (int i = 0; i < _characters.size(); i++) {
 			Character a = _characters.get(i);
@@ -71,7 +74,7 @@ public class Board implements IRender {
 		}
 		
 		renderCharacter(screen);
-		
+		renderBombs(screen);
 	}
 	
 	public void nextLevel() {
@@ -85,6 +88,7 @@ public class Board implements IRender {
 		_game.resetScreenDelay();
 		_game.pause();
 		_characters.clear();
+		_bombs.clear();
 
 		try {
 			_levelLoader = new FileLevelLoader(this, level);
@@ -242,6 +246,33 @@ public class Board implements IRender {
 
 	public int getHeight() {
 		return _levelLoader.getHeight();
+	}
+
+	//----------------------Bomb Setup--------------------------------------------------//
+
+	protected List<Bomb> _bombs = new ArrayList<>();
+
+	public List<Bomb> getBombs() {
+		return _bombs;
+	}
+
+	public void addBomb(Bomb e) {
+		_bombs.add(e);
+	}
+
+	protected void updateBombs() {
+		if( _game.isPaused() ) return;
+		Iterator<Bomb> itr = _bombs.iterator();
+
+		while(itr.hasNext())
+			itr.next().update();
+	}
+
+	protected void renderBombs(Screen screen) {
+		Iterator<Bomb> itr = _bombs.iterator();
+
+		while(itr.hasNext())
+			itr.next().render(screen);
 	}
 	
 }
