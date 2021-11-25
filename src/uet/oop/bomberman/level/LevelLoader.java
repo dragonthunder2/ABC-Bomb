@@ -8,7 +8,7 @@ import uet.oop.bomberman.exceptions.LoadLevelException;
  */
 public abstract class LevelLoader {
 
-	protected int _width, _height;
+	protected int _width = 20, _height = 20;
 	protected int _level;
 	protected Board _board;
 
