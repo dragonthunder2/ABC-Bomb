@@ -45,10 +45,10 @@ public class Explosion extends Entity {
     }
 
     private int calculateClearDistance() {
-        int radius = 0;
+        int _radius = 0;
         int x = (int)_x;
         int y = (int)_y;
-        while(radius < radius) {
+        while(_radius < radius) {
             if(direction == 0) y--;
             if(direction == 1) x++;
             if(direction == 2) y++;
@@ -56,14 +56,14 @@ public class Explosion extends Entity {
 
             Entity a = board.getEntity(x, y, null);
 
-            if(a instanceof Bomb) ++radius;
+            if(a instanceof Bomb) ++_radius;
 
             if(a.collide(this) == false)
                 break;
 
-            ++radius;
+            ++_radius;
         }
-        return radius;
+        return _radius;
     }
 
     public ExplosionSection explosionSectionIn(int x, int y) {

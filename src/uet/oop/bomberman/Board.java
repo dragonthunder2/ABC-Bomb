@@ -1,6 +1,7 @@
 package uet.oop.bomberman;
 
 import uet.oop.bomberman.entities.BombSet.Bomb;
+import uet.oop.bomberman.entities.BombSet.ExplosionSection;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
@@ -78,7 +79,9 @@ public class Board implements IRender {
 	}
 	
 	public void nextLevel() {
-                Game.setBomberSpeed(1.0);
+		Game.setBombRadius(1);
+		Game.setBombRate(1);
+		Game.setBomberSpeed(1.0);
 		loadLevel(_levelLoader.getLevel() + 1);
 	}
 	
@@ -134,6 +137,12 @@ public class Board implements IRender {
 	public Entity getEntity(double x, double y, Character m) {
 		
 		Entity res = null;
+
+		res = getFlameSegmentAt((int)x, (int)y);
+		if( res != null) return res;
+
+		res = getBombAt(x, y);
+		if( res != null) return res;
 		
 		res = getCharacterAtExcluding((int)x, (int)y, m);
 		if( res != null) return res;
@@ -266,6 +275,33 @@ public class Board implements IRender {
 
 		while(itr.hasNext())
 			itr.next().update();
+	}
+
+	public ExplosionSection getFlameSegmentAt(int x, int y) {
+		Iterator<Bomb> bs = _bombs.iterator();
+		Bomb b;
+		while(bs.hasNext()) {
+			b = bs.next();
+
+			ExplosionSection e = b.ExplosionIn(x, y);
+			if(e != null) {
+				return e;
+			}
+		}
+
+		return null;
+	}
+
+	public Bomb getBombAt(double x, double y) {
+		Iterator<Bomb> bs = _bombs.iterator();
+		Bomb b;
+		while(bs.hasNext()) {
+			b = bs.next();
+			if(b.getX() == (int)x && b.getY() == (int)y)
+				return b;
+		}
+
+		return null;
 	}
 
 	protected void renderBombs(Screen screen) {
