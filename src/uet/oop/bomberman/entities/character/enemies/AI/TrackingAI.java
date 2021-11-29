@@ -18,7 +18,7 @@ public class TrackingAI extends AI {
             return random.nextInt(4);
         }
 
-        int selection = random.nextInt(2);
+        int select = random.nextInt(2);
         int[] a = new int[2];
         if(b.getXTile() < e.getXTile())
             a[0] = 3;
@@ -32,6 +32,6 @@ public class TrackingAI extends AI {
             a[1] = 2;
         else
             a[1] = -1;
-        return a[selection];
+        return a[select];
     }
 }
