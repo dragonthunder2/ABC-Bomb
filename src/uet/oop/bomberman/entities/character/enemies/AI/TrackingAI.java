@@ -14,6 +14,24 @@ public class TrackingAI extends AI {
 
     @Override
     public int calculateDirection() {
-        return 0;
+        if (b == null) {
+            return random.nextInt(4);
+        }
+
+        int selection = random.nextInt(2);
+        int[] a = new int[2];
+        if(b.getXTile() < e.getXTile())
+            a[0] = 3;
+        else if(b.getXTile() > e.getXTile())
+            a[0] = 1;
+        else
+            a[0] = -1;
+        if(b.getYTile() < e.getYTile())
+            a[1] = 0;
+        else if(b.getYTile() > e.getYTile())
+            a[1] = 2;
+        else
+            a[1] = -1;
+        return a[selection];
     }
 }
