@@ -113,7 +113,6 @@ public class Bomber extends Character {
 		}
 		
 		return true;
-        //return false;
     }
 
     @Override

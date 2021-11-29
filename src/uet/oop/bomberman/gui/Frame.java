@@ -1,6 +1,7 @@
 package uet.oop.bomberman.gui;
 
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.Board;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,5 +34,4 @@ public class Frame extends JFrame {
 		
 		_game.start();
 	}
-
 }
