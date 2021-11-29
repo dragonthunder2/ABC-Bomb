@@ -4,6 +4,7 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.entities.character.enemies.Enemy;
 
 public class ExplosionSection extends Entity {
     protected boolean lastOf;
@@ -54,7 +55,7 @@ public class ExplosionSection extends Entity {
     @Override
     public boolean collide(Entity e) {
         if(e instanceof Bomber) ((Bomber) e).kill();
-        //if(e instanceof Enemy) ((Enemy) e).kill();
+        if(e instanceof Enemy) ((Enemy) e).kill();
         return true;
     }
 
