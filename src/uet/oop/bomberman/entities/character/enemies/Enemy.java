@@ -14,7 +14,7 @@ import uet.oop.bomberman.level.Coordinates;
 import java.awt.*;
 
 public abstract class Enemy extends Character {
-    protected int _point;
+    protected int _points;
     protected double _speed;
     protected AI _ai;
 
@@ -27,11 +27,12 @@ public abstract class Enemy extends Character {
 
     public Enemy(int x, int y, Board board, Sprite dead, double speed, int points) {
         super(x, y, board);
-        _point = points;
+
+        _points = points;
         _speed = speed;
 
-        MAX_STEPS = Game.TILES_SIZE/_speed;
-        rest = (MAX_STEPS - (int)MAX_STEPS) / MAX_STEPS;
+        MAX_STEPS = Game.TILES_SIZE / _speed;
+        rest = (MAX_STEPS - (int) MAX_STEPS) / MAX_STEPS;
         _steps = MAX_STEPS;
 
         _timeAfter = 20;
@@ -42,50 +43,56 @@ public abstract class Enemy extends Character {
     public void update() {
         animate();
 
-        if (!_alive) {
+        if(!_alive) {
             afterKill();
             return;
-        } else {
-            calculateMove();
         }
+
+        if(_alive)
+            calculateMove();
     }
 
     @Override
     public void render(Screen screen) {
-        if (_alive) {
+
+        if(_alive)
             chooseSprite();
-        } else {
-            if (_timeAfter > 0) {
+        else {
+            if(_timeAfter > 0) {
                 _sprite = _deadSprite;
                 _animate = 0;
             } else {
-                _sprite = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, _animate, 0);
+                _sprite = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, _animate, 60);
             }
+
         }
-        screen.renderEntity((int) _x, (int) _y - _sprite.SIZE, this);
+
+        screen.renderEntity((int)_x, (int)_y - _sprite.SIZE, this);
     }
 
     @Override
-    protected void calculateMove() {
+    public void calculateMove() {
         int x_pos = 0;
         int y_pos = 0;
-
-        if (_steps <= 0) {
+        if(_steps <= 0){
             _direction = _ai.calculateDirection();
             _steps = MAX_STEPS;
         }
 
-        switch (_direction) {
-            case 0:
-                y_pos--;
-            case 1:
-                y_pos++;
-            case 2:
-                x_pos--;
-            case 3:
-                x_pos++;
+        if(_direction == 0) {
+            y_pos--;
         }
-        if (canMove(x_pos, y_pos)) {
+        if(_direction == 2) {
+            y_pos++;
+        }
+        if(_direction == 3) {
+            x_pos--;
+        }
+        if(_direction == 1) {
+            x_pos++;
+        }
+
+        if(canMove(x_pos, y_pos)) {
             _steps -= 1 + rest;
             move(x_pos * _speed, y_pos * _speed);
             _moving = true;
@@ -96,46 +103,49 @@ public abstract class Enemy extends Character {
     }
 
     @Override
-    protected void move(double xa, double ya) {
-        if (!_alive) return;
-        _x += xa;
+    public void move(double xa, double ya) {
+        if(!_alive) return;
         _y += ya;
+        _x += xa;
     }
 
     @Override
-    protected boolean canMove(double x, double y) {
-        double xr = _x, yr = _y;
+    public boolean canMove(double x, double y) {
+        double xr = _x, yr = _y - 16;
 
-        switch (_direction) {
-            case 0:
-                yr +=_sprite.getSize() - 1;
-                xr += _sprite.getSize() / 2;
-            case 1:
-                yr += _sprite.getSize() / 2;
-                xr += 1;
-            case 2:
-                xr +=_sprite.getSize() / 2;
-                yr += 1;
-            case 3:
-                xr += _sprite.getSize() - 1;
-                yr += _sprite.getSize() / 2;
+        if(_direction == 0) {
+            yr += _sprite.getSize() -1;
+            xr += _sprite.getSize()/2;
+        }
+        if(_direction == 1) {
+            yr += _sprite.getSize()/2;
+            xr += 1;
+        }
+        if(_direction == 2) {
+            xr += _sprite.getSize()/2;
+            yr += 1;
+        }
+        if(_direction == 3) {
+            xr += _sprite.getSize() -1;
+            yr += _sprite.getSize()/2;
         }
 
-        int x_locate = Coordinates.pixelToTile(xr) + (int)x;
-        int y_locate = Coordinates.pixelToTile(yr) + (int)y;
+        int x_locate = Coordinates.pixelToTile(xr) +(int)x;
+        int y_locate = Coordinates.pixelToTile(yr) +(int)y;
 
         Entity a = _board.getEntity(x_locate, y_locate, this);
+
         return a.collide(this);
     }
 
     @Override
     public boolean collide(Entity e) {
-        if (e instanceof Explosion) {
+        if(e instanceof Explosion){
             this.kill();
             return false;
         }
-        if (e instanceof Bomber) {
-            ((Bomber) e).kill();
+        if(e instanceof Bomber){
+            ((Bomber)e).kill();
             return false;
         }
         return true;
@@ -143,11 +153,11 @@ public abstract class Enemy extends Character {
 
     @Override
     public void kill() {
-        if (!_alive) return;
+        if(!_alive) return;
         _alive = false;
-
-        _board.addPoints(_point);
+        _board.addPoints(_points);
     }
+
 
     @Override
     protected void afterKill() {
