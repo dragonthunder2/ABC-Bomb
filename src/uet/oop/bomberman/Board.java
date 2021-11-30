@@ -310,7 +310,5 @@ public class Board implements IRender {
 		while(itr.hasNext())
 			itr.next().render(screen);
 	}
-
-
 	
 }
