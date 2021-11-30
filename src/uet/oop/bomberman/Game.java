@@ -4,6 +4,7 @@ import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.gui.Frame;
 import uet.oop.bomberman.gui.Menu;
 import uet.oop.bomberman.input.Keyboard;
+import uet.oop.bomberman.input.MouseInput;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -52,12 +53,12 @@ public class Game extends Canvas {
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
-    private enum STATE {
+    public static enum STATE {
         MENU,
-        GAME
+        GAME,
     }
 
-    private STATE State = STATE.MENU;
+    public static STATE State = STATE.MENU;
 
     public Game(Frame frame) {
         _frame = frame;
@@ -69,6 +70,7 @@ public class Game extends Canvas {
         _board = new Board(this, _input, screen);
         menu = new Menu();
         addKeyListener(_input);
+        addMouseListener(new MouseInput());
     }
 
     private void renderGame() {
@@ -79,18 +81,19 @@ public class Game extends Canvas {
         }
 
         screen.clear();
+        if (State == STATE.GAME) {
+            _board.render(screen);
+        }
 
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = screen._pixels[i];
         }
 
+
         Graphics g = bs.getDrawGraphics();
 
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-
-        if (State == STATE.GAME) {
-            _board.render(screen);
-        }else if (State == STATE.MENU) {
+        if (State == STATE.MENU) {
             menu.render(g);
         }
 
@@ -109,9 +112,9 @@ public class Game extends Canvas {
 
         Graphics g = bs.getDrawGraphics();
 
-        if (State == STATE.GAME) {
-            _board.drawScreen(g);
-        }
+
+        _board.drawScreen(g);
+
 
         g.dispose();
         bs.show();
@@ -142,21 +145,15 @@ public class Game extends Canvas {
                 delta--;
             }
 
-            /**
-             *
-
             if (_paused) {
                 if (_screenDelay <= 0) {
                     _board.setShow(-1);
                     _paused = false;
                 }
-
                 renderScreen();
             } else {
-
+                renderGame();
             }
-             */
-            renderGame();
 
             frames++;
             if (System.currentTimeMillis() - timer > 1000) {
