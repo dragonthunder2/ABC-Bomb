@@ -35,6 +35,7 @@ public class Sprite {
 	| Bomber Sprites
 	|--------------------------------------------------------------------------
 	 */
+	/*
 	public static Sprite player_up = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.tiles, 12, 16);
 	public static Sprite player_down = new Sprite(DEFAULT_SIZE, 2, 0, SpriteSheet.tiles, 12, 15);
 	public static Sprite player_left = new Sprite(DEFAULT_SIZE, 3, 0, SpriteSheet.tiles, 10, 15);
@@ -55,7 +56,7 @@ public class Sprite {
 	public static Sprite player_dead1 = new Sprite(DEFAULT_SIZE, 4, 2, SpriteSheet.tiles, 14, 16);
 	public static Sprite player_dead2 = new Sprite(DEFAULT_SIZE, 5, 2, SpriteSheet.tiles, 13, 15);
 	public static Sprite player_dead3 = new Sprite(DEFAULT_SIZE, 6, 2, SpriteSheet.tiles, 16, 16);
-
+	*/
 	/*
 	|--------------------------------------------------------------------------
 	| Character
@@ -287,4 +288,42 @@ public class Sprite {
 
 		return output;
 	}
+	//----------------------------Character Sprite---------------------//
+	private SpriteSheetCharacter _sheetChar;
+
+	public Sprite(int size, int x, int y, SpriteSheetCharacter sheetChar, int rw, int rh) {
+		SIZE = size;
+		_pixels = new int[SIZE * SIZE];
+		_x = x * SIZE;
+		_y = y * SIZE;
+		_sheetChar = sheetChar;
+		_realWidth = rw;
+		_realHeight = rh;
+		loadChar();
+	}
+
+	private void loadChar() {
+		for (int y = 0; y < SIZE; y++) {
+			for (int x = 0; x < SIZE; x++) {
+				_pixels[x + y * SIZE] = _sheetChar._pixels[(x + _x) + (y + _y) * _sheetChar.SIZE];
+			}
+		}
+	}
+
+	public static Sprite player_up = new Sprite(20, 2, 2, SpriteSheetCharacter.bomberman, 20, 20);
+	public static Sprite player_up_1 = new Sprite(20, 0, 2, SpriteSheetCharacter.bomberman, 20, 20);
+	public static Sprite player_up_2 = new Sprite(20, 4, 2, SpriteSheetCharacter.bomberman, 20, 20);
+
+	public static Sprite player_down = new Sprite(20, 2, 0, SpriteSheetCharacter.bomberman, 20, 20);
+	public static Sprite player_down_1 = new Sprite(20, 0, 0, SpriteSheetCharacter.bomberman, 20, 20);
+	public static Sprite player_down_2 = new Sprite(20, 3, 0, SpriteSheetCharacter.bomberman, 20, 20);
+
+	public static Sprite player_left = new Sprite(20, 2, 3, SpriteSheetCharacter.bomberman, 20, 20);
+	public static Sprite player_left_1 = new Sprite(20, 0, 3, SpriteSheetCharacter.bomberman, 20, 20);
+	public static Sprite player_left_2 = new Sprite(20, 4, 3, SpriteSheetCharacter.bomberman, 20, 20);
+	public static Sprite player_right = new Sprite(20, 2, 1, SpriteSheetCharacter.bomberman, 20, 20);
+	public static Sprite player_right_1 = new Sprite(20, 0, 1, SpriteSheetCharacter.bomberman, 20, 20);
+	public static Sprite player_right_2 = new Sprite(20, 4, 1, SpriteSheetCharacter.bomberman, 20, 20);
+	public static Sprite player_dead1 = new Sprite(DEFAULT_SIZE, 4, 2, SpriteSheet.tiles, 14, 16);
+
 }
