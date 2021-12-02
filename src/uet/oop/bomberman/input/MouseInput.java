@@ -9,11 +9,6 @@ import java.awt.event.MouseListener;
 public class MouseInput implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
         /**
@@ -36,6 +31,10 @@ public class MouseInput implements MouseListener {
             }
         }
 
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
 
     }
 

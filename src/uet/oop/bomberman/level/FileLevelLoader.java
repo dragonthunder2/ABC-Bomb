@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.LayeredEntity;
@@ -12,6 +13,9 @@ import uet.oop.bomberman.entities.character.enemies.Balloon;
 import uet.oop.bomberman.entities.character.enemies.Doll;
 import uet.oop.bomberman.entities.character.enemies.Oneal;
 import uet.oop.bomberman.entities.tile.Grass;
+import uet.oop.bomberman.entities.tile.Item.BombItem;
+import uet.oop.bomberman.entities.tile.Item.FlameItem;
+import uet.oop.bomberman.entities.tile.Item.SpeedItem;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.exceptions.LoadLevelException;
@@ -110,6 +114,30 @@ public class FileLevelLoader extends LevelLoader {
                     case '3':
                         _board.addCharacter(new Oneal(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
                         _board.addEntity(pos, new Grass(x, y, Sprite.grass));
+                        break;
+                    // Thêm BomItem
+                    case 'b':
+                        LayeredEntity layer = new LayeredEntity(x, y,
+                                new Grass(x, y, Sprite.grass),
+                                new BombItem(x, y, Sprite.powerup_bombs),
+                                new Brick(x, y, Sprite.brick));
+                        _board.addEntity(pos, layer);
+                        break;
+                    // Thêm FlameItem
+                    case 'f':
+                        layer = new LayeredEntity(x, y,
+                                new Grass(x, y, Sprite.grass),
+                                new FlameItem(x, y, Sprite.powerup_flames),
+                                new Brick(x, y, Sprite.brick));
+                        _board.addEntity(pos, layer);
+                        break;
+                    // Thêm SpeedItem
+                    case 's':
+                        layer = new LayeredEntity(x, y,
+                                new Grass(x, y, Sprite.grass),
+                                new SpeedItem(x, y, Sprite.powerup_speed),
+                                new Brick(x, y, Sprite.brick));
+                        _board.addEntity(pos, layer);
                         break;
 
                     default:
