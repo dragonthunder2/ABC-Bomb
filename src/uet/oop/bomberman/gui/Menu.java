@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Menu {
 
-    public Rectangle playButton = new Rectangle(Game.WIDTH / 2 + 120, 150, 100, 50);
+    public Rectangle playButton = new Rectangle(Game.WIDTH  / 2 + 120, 150, 100, 50);
     public Rectangle helpButton = new Rectangle(Game.WIDTH / 2 + 120, 250, 100, 50);
     public Rectangle quitButton = new Rectangle(Game.WIDTH / 2 + 120, 350, 100, 50);
 

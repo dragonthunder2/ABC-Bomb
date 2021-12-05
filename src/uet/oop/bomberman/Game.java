@@ -48,6 +48,7 @@ public class Game extends Canvas {
     private Board _board;
     private Screen screen;
     private Frame _frame;
+
     private Menu menu;
 
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -56,6 +57,7 @@ public class Game extends Canvas {
     public static enum STATE {
         MENU,
         GAME,
+        GAMEOVER,
     }
 
     public static STATE State = STATE.MENU;
