@@ -13,6 +13,7 @@ public class Sprite {
 	public static final int DEFAULT_SIZE = 16;
 	public static final int SCALED_SIZE = DEFAULT_SIZE * 2;
 	private static final int TRANSPARENT_COLOR = 0xffff00ff;
+	private static final int TRANSPARENT_COLOR_1 = 0xff517c9d;
 	public final int SIZE;
 	private int _x, _y;
 	public int[] _pixels;
@@ -310,20 +311,20 @@ public class Sprite {
 		}
 	}
 
-	public static Sprite player_up = new Sprite(32, 2, 2, SpriteSheetCharacter.bomberman, 16, 16);
-	public static Sprite player_up_1 = new Sprite(32, 0, 2, SpriteSheetCharacter.bomberman, 16, 16);
-	public static Sprite player_up_2 = new Sprite(32, 4, 2, SpriteSheetCharacter.bomberman, 16, 16);
+	public static Sprite player_up = new Sprite(DEFAULT_SIZE, 2, 2, SpriteSheetCharacter.bomberman, 30, 32);
+	public static Sprite player_up_1 = new Sprite(DEFAULT_SIZE, 0, 2, SpriteSheetCharacter.bomberman, 30, 32);
+	public static Sprite player_up_2 = new Sprite(DEFAULT_SIZE, 4, 2, SpriteSheetCharacter.bomberman, 30, 32);
 
-	public static Sprite player_down = new Sprite(32, 2, 0, SpriteSheetCharacter.bomberman, 16, 16);
-	public static Sprite player_down_1 = new Sprite(32, 0, 0, SpriteSheetCharacter.bomberman, 16, 16);
-	public static Sprite player_down_2 = new Sprite(32, 3, 0, SpriteSheetCharacter.bomberman, 16, 16);
+	public static Sprite player_down = new Sprite(DEFAULT_SIZE, 2, 0, SpriteSheetCharacter.bomberman, 10, 20);
+	public static Sprite player_down_1 = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheetCharacter.bomberman, 10, 20);
+	public static Sprite player_down_2 = new Sprite(DEFAULT_SIZE, 3, 0, SpriteSheetCharacter.bomberman, 10, 20);
 
-	public static Sprite player_left = new Sprite(32, 2, 3, SpriteSheetCharacter.bomberman, 16, 16);
-	public static Sprite player_left_1 = new Sprite(32, 0, 3, SpriteSheetCharacter.bomberman, 16, 16);
-	public static Sprite player_left_2 = new Sprite(32, 4, 3, SpriteSheetCharacter.bomberman, 16, 16);
-	public static Sprite player_right = new Sprite(32, 2, 1, SpriteSheetCharacter.bomberman, 16, 16);
-	public static Sprite player_right_1 = new Sprite(32, 0, 1, SpriteSheetCharacter.bomberman, 16, 16);
-	public static Sprite player_right_2 = new Sprite(32, 4, 1, SpriteSheetCharacter.bomberman, 16, 16);
-	public static Sprite player_dead1 = new Sprite(32, 4, 2, SpriteSheet.tiles, 14, 16);
+	public static Sprite player_left = new Sprite(DEFAULT_SIZE, 2, 3, SpriteSheetCharacter.bomberman, 30, 32);
+	public static Sprite player_left_1 = new Sprite(DEFAULT_SIZE, 0, 3, SpriteSheetCharacter.bomberman, 30, 32);
+	public static Sprite player_left_2 = new Sprite(DEFAULT_SIZE, 4, 3, SpriteSheetCharacter.bomberman, 30, 32);
+	public static Sprite player_right = new Sprite(DEFAULT_SIZE, 2, 1, SpriteSheetCharacter.bomberman, 30, 32);
+	public static Sprite player_right_1 = new Sprite(DEFAULT_SIZE, 0, 1, SpriteSheetCharacter.bomberman, 30, 32);
+	public static Sprite player_right_2 = new Sprite(DEFAULT_SIZE, 4, 1, SpriteSheetCharacter.bomberman, 30, 32);
+	public static Sprite player_dead1 = new Sprite(DEFAULT_SIZE, 4, 2, SpriteSheet.tiles, 14, 16);
 
 }

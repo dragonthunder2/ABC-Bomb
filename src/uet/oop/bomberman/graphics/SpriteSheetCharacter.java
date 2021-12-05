@@ -10,7 +10,7 @@ public class SpriteSheetCharacter {
     public final int SIZE;
     public int[] _pixels;
 
-    public static SpriteSheetCharacter bomberman = new SpriteSheetCharacter("/textures/Bombermantiles1.png", 384);
+    public static SpriteSheetCharacter bomberman = new SpriteSheetCharacter("/textures/Bombermantiles2.png", 192);
 
     public SpriteSheetCharacter(String path, int size) {
         _path = path;
