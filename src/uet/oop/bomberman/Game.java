@@ -43,10 +43,10 @@ public class Game extends Canvas {
 
     private Keyboard _input;
     private boolean _running = false;
-    private boolean _paused = true;
+    public static boolean _paused = true;
 
-    private Board _board;
-    private Screen screen;
+    public static Board _board;
+    public static Screen screen;
     private Frame _frame;
 
     private Menu menu;
@@ -84,6 +84,7 @@ public class Game extends Canvas {
 
         screen.clear();
         if (State == STATE.GAME) {
+
             _board.render(screen);
         }
 
@@ -91,9 +92,7 @@ public class Game extends Canvas {
             pixels[i] = screen._pixels[i];
         }
 
-
         Graphics g = bs.getDrawGraphics();
-
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
         if (State == STATE.MENU) {
             menu.render(g);
@@ -109,15 +108,9 @@ public class Game extends Canvas {
             createBufferStrategy(3);
             return;
         }
-
         screen.clear();
-
         Graphics g = bs.getDrawGraphics();
-
-
         _board.drawScreen(g);
-
-
         g.dispose();
         bs.show();
     }
@@ -174,7 +167,7 @@ public class Game extends Canvas {
         _screenDelay = SCREENDELAY;
     }
 
-    public Board getBoard() {
+    public static Board getBoard() {
         return _board;
     }
 

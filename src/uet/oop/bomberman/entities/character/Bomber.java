@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.BombSet.Bomb;
+import uet.oop.bomberman.entities.BombSet.Explosion;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.character.enemies.Enemy;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.input.Keyboard;
@@ -135,8 +137,14 @@ public class Bomber extends Character {
 
     @Override
     public boolean collide(Entity e) {
-        // TODO: xử lý va chạm với Flame
-        // TODO: xử lý va chạm với Enemy
+        if(e instanceof Explosion){
+            this.kill();
+            return false;
+        }
+        if(e instanceof Enemy){
+            this.kill();
+            return true;
+        }
         if( e instanceof LayeredEntity) return(e.collide(this));
         return true;
     }

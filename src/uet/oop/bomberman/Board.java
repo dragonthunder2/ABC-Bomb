@@ -102,6 +102,7 @@ public class Board implements IRender {
 			endGame();
 		}
 	}
+
 	
 	protected void detectEndGame() {
 		if(_time <= 0)
@@ -111,6 +112,7 @@ public class Board implements IRender {
 	public void endGame() {
 		_screenToShow = 1;
 		_game.resetScreenDelay();
+		_game.pause();
 	}
 	
 	public boolean detectNoEnemies() {// phat hien enemies
@@ -126,10 +128,12 @@ public class Board implements IRender {
 	public void drawScreen(Graphics g) {
 		switch (_screenToShow) {
 			case 1:
+				Game.State = Game.STATE.GAMEOVER;
 				_screen.drawEndGame(g, _points);
 				break;
 			case 2:
 				_screen.drawChangeLevel(g, _levelLoader.getLevel());
+				//Game.State = Game.STATE.LEVELUP;
 				break;
 		}
 	}

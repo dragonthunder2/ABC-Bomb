@@ -1,5 +1,6 @@
 package uet.oop.bomberman.input;
 
+import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 
 import java.awt.*;
@@ -29,6 +30,16 @@ public class MouseInput implements MouseListener {
             if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220) {
                 if (mx >= 250 && my <= 400 && my >= 350 ){
                     System.exit(1);
+                }
+            }
+        }
+
+        if (Game.State == Game.STATE.GAMEOVER) {
+            if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220) {
+                if (mx >= 150 && my <= 200) {
+                    Game._paused = false;
+                    Game.getBoard().loadLevel(1);
+                    Game.State = Game.STATE.GAME;
                 }
             }
         }
