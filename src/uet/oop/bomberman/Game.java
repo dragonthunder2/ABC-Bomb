@@ -1,27 +1,28 @@
 package uet.oop.bomberman;
 
 import uet.oop.bomberman.graphics.Screen;
+import uet.oop.bomberman.graphics.BufferedImageLoader;
 import uet.oop.bomberman.gui.Frame;
 import uet.oop.bomberman.gui.Menu;
 import uet.oop.bomberman.input.Keyboard;
 import uet.oop.bomberman.input.MouseInput;
 
 import java.awt.*;
+import java.awt.Canvas;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.IOException;
 
-/**
- * Tạo vòng lặp cho game, lưu trữ một vài tham số cấu hình toàn cục,
- * Gọi phương thức render(), update() cho tất cả các entity
- */
+import static com.sun.corba.se.impl.util.Utility.printStackTrace;
+
 public class Game extends Canvas {
 
     public static final int TILES_SIZE = 16,
             WIDTH = TILES_SIZE * (31 / 2),
             HEIGHT = 13 * TILES_SIZE;
 
-    public static int SCALE = 6;
+    public static int SCALE = 5;
 
     public static final String TITLE = "Bomberman-ABC";
 
@@ -52,6 +53,7 @@ public class Game extends Canvas {
     private Menu menu;
 
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    private BufferedImage background = null;
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
     public static enum STATE {
@@ -73,6 +75,33 @@ public class Game extends Canvas {
         menu = new Menu();
         addKeyListener(_input);
         addMouseListener(new MouseInput());
+    }
+
+    private void renderMenu() {
+        try {
+            BufferStrategy bs = getBufferStrategy();
+            if (bs == null) {
+                createBufferStrategy(3);
+                return;
+            }
+            screen.clear();
+
+            Graphics g = bs.getDrawGraphics();
+            BufferedImageLoader loader = new BufferedImageLoader();
+            background = loader.loadImage("/MENU.png");
+
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            g.drawImage(background, 0, 0,null);
+
+            if (State == STATE.MENU) {
+                menu.render(g);
+            }
+
+            g.dispose();
+            bs.show();
+        }catch (IOException e){
+            printStackTrace();
+        }
     }
 
     private void renderGame() {
@@ -139,26 +168,29 @@ public class Game extends Canvas {
                 updates++;
                 delta--;
             }
-
-            if (_paused) {
-                if (_screenDelay <= 0) {
-                    _board.setShow(-1);
-                    _paused = false;
+            if (State == STATE.MENU) {
+                renderMenu();
+            } else if (State == STATE.GAME) {
+                if (_paused) {
+                    if (_screenDelay <= 0) {
+                        _board.setShow(-1);
+                        _paused = false;
+                    }
+                    renderScreen();
+                } else {
+                    renderGame();
                 }
-                renderScreen();
-            } else {
-                renderGame();
-            }
 
-            frames++;
-            if (System.currentTimeMillis() - timer > 1000) {
-                timer += 1000;
-                _frame.setTitle(TITLE);
-                updates = 0;
-                frames = 0;
+                frames++;
+                if (System.currentTimeMillis() - timer > 1000) {
+                    timer += 1000;
+                    _frame.setTitle(TITLE);
+                    updates = 0;
+                    frames = 0;
 
-                if (_board.getShow() == 2)
-                    --_screenDelay;
+                    if (_board.getShow() == 2)
+                        --_screenDelay;
+                }
             }
         }
     }

@@ -16,6 +16,7 @@ import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.Item.BombItem;
 import uet.oop.bomberman.entities.tile.Item.FlameItem;
 import uet.oop.bomberman.entities.tile.Item.SpeedItem;
+import uet.oop.bomberman.entities.tile.Portal;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.exceptions.LoadLevelException;
@@ -138,6 +139,13 @@ public class FileLevelLoader extends LevelLoader {
                                 new SpeedItem(x, y, Sprite.powerup_speed),
                                 new Brick(x, y, Sprite.brick));
                         _board.addEntity(pos, layer);
+                        break;
+                        //Portal
+                    case 'x':
+                        _board.addEntity(pos, new LayeredEntity(x, y,
+                                new Grass(x, y, Sprite.grass),
+                                new Portal(x, y, _board, Sprite.portal),
+                                new Brick(x, y, Sprite.brick)));
                         break;
 
                     default:

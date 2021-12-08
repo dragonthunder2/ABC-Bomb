@@ -92,6 +92,9 @@ public class Board implements IRender {
 		_game.pause();
 		_characters.clear();
 		_bombs.clear();
+		Game.setBombRadius(1);
+		Game.setBombRate(1);
+		Game.setBomberSpeed(1.0);
 
 		try {
 			_levelLoader = new FileLevelLoader(this, level);
@@ -115,7 +118,7 @@ public class Board implements IRender {
 		_game.pause();
 	}
 	
-	public boolean detectNoEnemies() {// phat hien enemies
+	public boolean detectNoEnemies() {
 		int total = 0;
 		for (int i = 0; i < _characters.size(); i++) {
 			if(_characters.get(i) instanceof Bomber == false)
