@@ -73,6 +73,7 @@ public class Bomber extends Character {
     public void kill() {
         if (!_alive) return;
         _alive = false;
+        Game.audioPlay("fail.wav", false);
     }
 
     @Override
@@ -199,10 +200,10 @@ public class Bomber extends Character {
     }
 
     protected void plantBomb(int x, int y) {
-        // TODO: thực hiện tạo đối tượng bom, đặt vào vị trí (x, y)
+        //TODO: thực hiện tạo đối tượng bom, đặt vào vị trí (x, y)
+        Game.audioPlay("bombset.wav", false);
         Bomb b = new Bomb(x, y, _board);
         _board.addBomb(b);
-        //Sound.play("BOM_SET");
     }
 
     private void bombsClear() {

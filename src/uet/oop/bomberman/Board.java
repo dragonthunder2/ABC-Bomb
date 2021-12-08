@@ -120,8 +120,8 @@ public class Board implements IRender {
 	
 	public boolean detectNoEnemies() {
 		int total = 0;
-		for (int i = 0; i < _characters.size(); i++) {
-			if(_characters.get(i) instanceof Bomber == false)
+		for (Character character : _characters) {
+			if (!(character instanceof Bomber))
 				++total;
 		}
 		
@@ -133,6 +133,7 @@ public class Board implements IRender {
 			case 1:
 				Game.State = Game.STATE.GAMEOVER;
 				_screen.drawEndGame(g, _points);
+				_points = 0;
 				break;
 			case 2:
 				_screen.drawChangeLevel(g, _levelLoader.getLevel());
@@ -205,15 +206,13 @@ public class Board implements IRender {
 	}
 
 	protected void renderCharacter(Screen screen) {
-		Iterator<Character> itr = _characters.iterator();
 
-		while(itr.hasNext())
-			itr.next().render(screen);
+		for (Character character : _characters) character.render(screen);
 	}
 	
 	protected void updateEntities() {
-		for (int i = 0; i < _entities.length; i++) {
-			_entities[i].update();
+		for (Entity entity : _entities) {
+			entity.update();
 		}
 	}
 	
@@ -278,10 +277,8 @@ public class Board implements IRender {
 
 	protected void updateBombs() {
 		if( _game.isPaused() ) return;
-		Iterator<Bomb> itr = _bombs.iterator();
 
-		while(itr.hasNext())
-			itr.next().update();
+		for (Bomb bomb : _bombs) bomb.update();
 	}
 
 	public ExplosionSection getFlameSegmentAt(int x, int y) {
@@ -312,10 +309,8 @@ public class Board implements IRender {
 	}
 
 	protected void renderBombs(Screen screen) {
-		Iterator<Bomb> itr = _bombs.iterator();
 
-		while(itr.hasNext())
-			itr.next().render(screen);
+		for (Bomb bomb : _bombs) bomb.render(screen);
 	}
 	
 }

@@ -1,5 +1,6 @@
 package uet.oop.bomberman;
 
+import sun.applet.Main;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.BufferedImageLoader;
 import uet.oop.bomberman.gui.Frame;
@@ -7,6 +8,9 @@ import uet.oop.bomberman.gui.Menu;
 import uet.oop.bomberman.input.Keyboard;
 import uet.oop.bomberman.input.MouseInput;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.Canvas;
 import java.awt.image.BufferStrategy;
@@ -192,6 +196,22 @@ public class Game extends Canvas {
                         --_screenDelay;
                 }
             }
+        }
+    }
+
+    public static void audioPlay(String music, boolean loop) {
+        try {
+            Clip clip = AudioSystem.getClip();
+            AudioInputStream input = AudioSystem.getAudioInputStream(
+                    Main.class.getResourceAsStream("/sound/" + music));
+            clip.open(input);
+            if (loop) {
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } else {
+                clip.loop(0);
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 
