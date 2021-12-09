@@ -14,6 +14,7 @@ public class SpeedItem extends Item {
     @Override
     public boolean collide(Entity e) {
         if (e instanceof Bomber) {
+            Game.audioPlay("Item.wav", false);
             Game.addBomberSpeed(0.5);
             remove();
         }

@@ -76,6 +76,7 @@ public class Bomb extends AnimatedEntitiy {
      * Xử lý Bomb nổ
      */
     protected void explode() {//nổ
+        //Game.audioPlay("explosion.wav", false);
         explosion = true;
         ableToPass = true;
         Character x = board.getCharacterAtExcluding((int)_x, (int)_y, null);
@@ -86,11 +87,13 @@ public class Bomb extends AnimatedEntitiy {
         for (int i = 0; i < explosions.length; i++) {
             explosions[i] = new Explosion((int)_x, (int)_y, i, Game.getBombRadius(), board);
         }
-        //Sound.play("BOM_11_M");
+        Game.audioPlay("explosion.wav", false);
     }
+
     public void timeExplode() {
         countDown = 0;
     }
+
     public ExplosionSection ExplosionIn(int x, int y) {
         if(!explosion) return null;
 

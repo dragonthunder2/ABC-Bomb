@@ -14,6 +14,7 @@ public class BombItem extends Item{
     @Override
     public boolean collide(Entity e) {
         if (e instanceof Bomber) {
+            Game.audioPlay("Item.wav", false);
             Game.addBombRate(1);
             remove();
         }
