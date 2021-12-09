@@ -31,8 +31,7 @@ public class Board implements IRender {
 	public List<Character> _characters = new ArrayList<>();
 
 	private int _screenToShow = -1; //1:endgame, 2:changelevel, 3:paused
-	
-	private int _time = Game.TIME;
+
 	private int _points = Game.POINTS;
 	
 	public Board(Game game, Keyboard input, Screen screen) {
@@ -45,11 +44,10 @@ public class Board implements IRender {
 	
 	@Override
 	public void update() {
-		if( _game.isPaused() ) return;
+		if(_game.isPaused()) return;
 		
 		updateEntities();
 		updateCharacters();
-		detectEndGame();
 		updateBombs();
 		
 		for (int i = 0; i < _characters.size(); i++) {
@@ -86,7 +84,6 @@ public class Board implements IRender {
 	}
 	
 	public void loadLevel(int level) {
-		_time = Game.TIME;
 		_screenToShow = 2;
 		_game.resetScreenDelay();
 		_game.pause();
@@ -104,12 +101,6 @@ public class Board implements IRender {
 		} catch (LoadLevelException e) {
 			endGame();
 		}
-	}
-
-	
-	protected void detectEndGame() {
-		if(_time <= 0)
-			endGame();
 	}
 	
 	public void endGame() {
@@ -133,7 +124,6 @@ public class Board implements IRender {
 			case 1:
 				Game.State = Game.STATE.GAMEOVER;
 				_screen.drawEndGame(g, _points);
-				_points = 0;
 				break;
 			case 2:
 				_screen.drawChangeLevel(g, _levelLoader.getLevel());
@@ -241,10 +231,6 @@ public class Board implements IRender {
 
 	public void setShow(int i) {
 		_screenToShow = i;
-	}
-
-	public int getTime() {
-		return _time;
 	}
 
 	public int getPoints() {

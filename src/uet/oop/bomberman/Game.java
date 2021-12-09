@@ -16,7 +16,7 @@ import java.awt.Canvas;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.io.IOException;
+import java.io.*;
 
 import static com.sun.corba.se.impl.util.Utility.printStackTrace;
 
@@ -36,6 +36,7 @@ public class Game extends Canvas {
 
     public static final int TIME = 200;
     public static final int POINTS = 0;
+    private String highScore = "";
 
     protected static int SCREENDELAY = 3;
 
@@ -131,6 +132,20 @@ public class Game extends Canvas {
             menu.render(g);
         }
 
+        highScore = getHighScore();
+
+        checkScore();
+
+        Font font0 = new Font("Arial", Font.BOLD, 30);
+        g.setFont(font0);
+        g.setColor(Color.white);
+        g.drawString("BEST SCORE: " + highScore, 400, 30);
+
+        Font font = new Font("Arial", Font.BOLD, 30);
+        g.setFont(font);
+        g.setColor(Color.white);
+        g.drawString("SCORE: " + _board.getPoints(), 20, 30);
+
         g.dispose();
         bs.show();
     }
@@ -195,6 +210,55 @@ public class Game extends Canvas {
                     if (_board.getShow() == 2)
                         --_screenDelay;
                 }
+            }
+        }
+    }
+
+    public void checkScore() {
+        if (_board.getPoints() > Integer.parseInt(highScore)) {
+            highScore = "" + _board.getPoints();
+            File scoreFile = new File("highscore.txt");
+            if (!scoreFile.exists()) {
+                try {
+                    scoreFile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            FileWriter writeFile = null;
+            BufferedWriter writer = null;
+            try {
+                writeFile = new FileWriter(scoreFile);
+                writer = new BufferedWriter(writeFile);
+                writer.write(this.highScore);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (writer != null)
+                        writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public String getHighScore() {
+        FileReader readFile;
+        BufferedReader reader = null;
+        try {
+            readFile = new FileReader("highscore.txt");
+            reader = new BufferedReader(readFile);
+            return reader.readLine();
+        } catch (Exception e) {
+            return "0";
+        } finally {
+            try {
+                if (reader != null)
+                    reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

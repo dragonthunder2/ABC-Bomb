@@ -6,7 +6,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Balloon extends Enemy {
     public Balloon(int x, int y, Board board) {
-        super(x, y, board, Sprite.balloom_dead, 0.5, 100);
+        super(x, y, board, Sprite.balloom_dead, 0.5, 100, 1);
         _sprite = Sprite.balloom_left1;
 
         _ai = new RandomAI();

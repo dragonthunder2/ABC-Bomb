@@ -17,6 +17,7 @@ public class CoinItem extends Tile {
     @Override
     public boolean collide(Entity e) {
         if (e instanceof Bomber) {
+            Game.audioPlay("Item.wav", false);
             Game.getBoard().addPoints(50);
             remove();
         }

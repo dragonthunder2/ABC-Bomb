@@ -7,6 +7,7 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.entities.character.enemies.AI.AI;
+import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
@@ -17,6 +18,7 @@ public abstract class Enemy extends Character {
     protected int _points;
     protected double _speed;
     protected AI _ai;
+    protected int _lives;
 
     protected final double MAX_STEPS;
     protected final double rest;
@@ -24,12 +26,14 @@ public abstract class Enemy extends Character {
 
     protected int _finalAnimation = 30;
     protected Sprite _deadSprite;
+    protected int count = 0;
 
-    public Enemy(int x, int y, Board board, Sprite dead, double speed, int points) {
+    public Enemy(int x, int y, Board board, Sprite dead, double speed, int points, int lives) {
         super(x, y, board);
 
         _points = points;
         _speed = speed;
+        _lives = lives;
 
         MAX_STEPS = Game.TILES_SIZE / _speed;
         rest = (MAX_STEPS - (int) MAX_STEPS) / MAX_STEPS;
@@ -136,15 +140,19 @@ public abstract class Enemy extends Character {
         Entity a = _board.getEntity(x_locate, y_locate, this);
 
         return a.collide(this);
+        //return true;
     }
 
     @Override
     public boolean collide(Entity e) {
-        if(e instanceof Explosion){
-            this.kill();
-            return false;
+        if (e instanceof Explosion){
+            count++;
+            if (count == _lives) {
+                this.kill();
+                return false;
+            }
         }
-        if(e instanceof Bomber){
+        if (e instanceof Bomber){
             ((Bomber)e).kill();
             return false;
         }
