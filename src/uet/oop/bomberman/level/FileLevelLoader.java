@@ -12,6 +12,7 @@ import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.enemies.Balloon;
 import uet.oop.bomberman.entities.character.enemies.Doll;
 import uet.oop.bomberman.entities.character.enemies.Oneal;
+import uet.oop.bomberman.entities.tile.CoinItem;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.Item.BombItem;
 import uet.oop.bomberman.entities.tile.Item.FlameItem;
@@ -140,7 +141,13 @@ public class FileLevelLoader extends LevelLoader {
                                 new Brick(x, y, Sprite.brick));
                         _board.addEntity(pos, layer);
                         break;
-                        //Portal
+                    //CoinItem
+                    case 'c':
+                        _board.addEntity(pos, new LayeredEntity(x, y,
+                                new Grass(x, y, Sprite.grass),
+                                new CoinItem(x, y, _board, Sprite.coin)));
+                        break;
+                    //Portal
                     case 'x':
                         _board.addEntity(pos, new LayeredEntity(x, y,
                                 new Grass(x, y, Sprite.grass),

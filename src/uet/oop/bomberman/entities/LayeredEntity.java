@@ -9,7 +9,7 @@ import java.util.LinkedList;
  * Chứa và quản lý nhiều Entity tại cùng một vị trí
  * Ví dụ: tại vị trí dấu Item, có 3 Entity [Grass, Item, Brick]
  */
-public class 	LayeredEntity extends Entity {
+public class LayeredEntity extends Entity {
 	
 	protected LinkedList<Entity> _entities = new LinkedList<>();
 	

@@ -22,6 +22,7 @@ public class MouseInput implements MouseListener {
         if (Game.State == Game.STATE.MENU){
             if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220) {
                 if (mx >= 150 && my <= 200){
+                    Game.getBoard().setPoint(0);
                     Game.State = Game.STATE.GAME;
                 }
             }
@@ -39,6 +40,7 @@ public class MouseInput implements MouseListener {
                 if (mx >= 150 && my <= 200) {
                     Game._paused = false;
                     Game.getBoard().loadLevel(1);
+                    Game.getBoard().setPoint(0);
                     Game.State = Game.STATE.GAME;
                 }
             }
