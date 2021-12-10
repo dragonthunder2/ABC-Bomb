@@ -112,7 +112,6 @@ public class Screen {
         g.drawString("MAIN MENU", menuButton.x + 20, menuButton.y + 35);
         g2d.draw(menuButton);
 
-
         Font font = new Font("Arial", Font.PLAIN, 20 * Game.SCALE);
         g.setFont(font);
         g.setColor(Color.white);
@@ -123,6 +122,37 @@ public class Screen {
         g.setColor(Color.yellow);
         drawCenteredString("SCORE: " + points, getRealWidth(), getRealHeight() + (Game.TILES_SIZE * 2) * Game.SCALE, g);
     }
+
+    public void drawWinGame(Graphics g, int points) {
+        g.setColor(Color.black);
+        g.fillRect(0, 0, getRealWidth(), getRealHeight());
+
+        Rectangle playButton = new Rectangle(500, 632, 200, 50);
+        Graphics2D g2d = (Graphics2D) g;
+        Font fnt1 = new Font("arial", Font.BOLD, 30);
+        g.setFont(fnt1);
+        g.setColor(Color.white);
+        g.drawString("TRY AGAIN", playButton.x + 20, playButton.y + 35);
+        g2d.draw(playButton);
+
+        Rectangle menuButton = new Rectangle(500, 700, 200, 50);
+        Font fnt2 = new Font("arial", Font.BOLD, 30);
+        g.setFont(fnt2);
+        g.setColor(Color.white);
+        g.drawString("MAIN MENU", menuButton.x + 20, menuButton.y + 35);
+        g2d.draw(menuButton);
+
+        Font font = new Font("Arial", Font.PLAIN, 20 * Game.SCALE);
+        g.setFont(font);
+        g.setColor(Color.white);
+        drawCenteredString("YOU WON!!!", getRealWidth(), getRealHeight(), g);
+
+        font = new Font("Arial", Font.PLAIN, 10 * Game.SCALE);
+        g.setFont(font);
+        g.setColor(Color.yellow);
+        drawCenteredString("SCORE: " + points, getRealWidth(), getRealHeight() + (Game.TILES_SIZE * 2) * Game.SCALE, g);
+    }
+
 
     public void drawChangeLevel(Graphics g, int level) {
         g.setColor(Color.black);
