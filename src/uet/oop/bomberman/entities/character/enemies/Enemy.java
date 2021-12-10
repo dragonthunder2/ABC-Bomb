@@ -161,7 +161,7 @@ public abstract class Enemy extends Character {
 
     @Override
     public void kill() {
-        if(!_alive) return;
+        Game.audioPlay("kill.wav", false);
         _alive = false;
         _board.addPoints(_points);
     }

@@ -19,24 +19,39 @@ public class MouseInput implements MouseListener {
          public Rectangle quitButton = new Rectangle(Game.WIDTH / 2 + 120, 350, 100, 50);
          */
         //Play Button
-        if (Game.State == Game.STATE.MENU){
+        if (Game.State == Game.STATE.MENU) {
+            Game.audioPlay("select.wav", false);
             if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220) {
-                if (mx >= 150 && my <= 200){
+                if (mx >= 150 && my <= 200) {
                     Game.State = Game.STATE.GAME;
+                }
+            }
+            //Help Button
+            if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220) {
+                if (mx >= 250 && my <= 350 && my >= 220) {
+                    Game.State = Game.STATE.HELP;
                 }
             }
 
             //Quit Button
             if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220) {
-                if (mx >= 250 && my <= 400 && my >= 350 ){
+                if (mx >= 250 && my <= 400 && my >= 350) {
                     System.exit(1);
                 }
+            }
+        }
+
+        if (Game.State == Game.STATE.HELP) {
+            if (mx <= Game.WIDTH && my <= Game.HEIGHT + 20) {
+                Game.audioPlay("select.wav", false);
+                Game.State = Game.STATE.MENU;
             }
         }
 
         if (Game.State == Game.STATE.GAMEOVER) {
             if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220) {
                 if (mx >= 150 && my <= 200) {
+                    Game.audioPlay("select.wav", false);
                     Game._paused = false;
                     Game.getBoard().loadLevel(1);
                     Game.State = Game.STATE.GAME;

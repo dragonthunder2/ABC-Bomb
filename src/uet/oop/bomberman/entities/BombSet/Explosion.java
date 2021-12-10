@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.BombSet;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
+import uet.oop.bomberman.entities.character.enemies.Enemy;
 import uet.oop.bomberman.graphics.Screen;
 
 public class Explosion extends Entity {
@@ -87,7 +88,7 @@ public class Explosion extends Entity {
     @Override
     public boolean collide(Entity e) {
         if(e instanceof Bomber) ((Bomber) e).kill();
-        //if(e instanceof Enemy) ((Enemy) e).kill();
+        if(e instanceof Enemy) ((Enemy) e).kill();
         return true;
     }
 }

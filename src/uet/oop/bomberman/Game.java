@@ -28,7 +28,7 @@ public class Game extends Canvas {
 
     public static int SCALE = 5;
 
-    public static final String TITLE = "Bomberman-ABC";
+    public static final String TITLE = "Bomberman-123";
 
     private static final int BOMBRATE = 1;
     private static final int BOMBRADIUS = 1;
@@ -61,10 +61,11 @@ public class Game extends Canvas {
     private BufferedImage background = null;
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
-    public static enum STATE {
+    public enum STATE {
         MENU,
         GAME,
         GAMEOVER,
+        HELP
     }
 
     public static STATE State = STATE.MENU;
@@ -96,7 +97,7 @@ public class Game extends Canvas {
             background = loader.loadImage("/MENU.png");
 
             g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-            g.drawImage(background, 0, 0,null);
+            g.drawImage(background, 0, 0, null);
 
             if (State == STATE.MENU) {
                 menu.render(g);
@@ -104,7 +105,30 @@ public class Game extends Canvas {
 
             g.dispose();
             bs.show();
-        }catch (IOException e){
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    private void renderHelp() {
+        try {
+            BufferStrategy bs = getBufferStrategy();
+            if (bs == null) {
+                createBufferStrategy(3);
+                return;
+            }
+            screen.clear();
+
+            Graphics g = bs.getDrawGraphics();
+            BufferedImageLoader loader = new BufferedImageLoader();
+            background = loader.loadImage("/help.png");
+
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            g.drawImage(background, 0, 0, null);
+
+            g.dispose();
+            bs.show();
+        } catch (IOException e) {
             printStackTrace();
         }
     }
@@ -138,8 +162,8 @@ public class Game extends Canvas {
 
         Font font0 = new Font("Arial", Font.BOLD, 30);
         g.setFont(font0);
-        g.setColor(Color.white);
-        g.drawString("BEST SCORE: " + highScore, 400, 30);
+        g.setColor(Color.yellow);
+        g.drawString("BEST SCORE: " + highScore, 20, 60);
 
         Font font = new Font("Arial", Font.BOLD, 30);
         g.setFont(font);
@@ -189,6 +213,8 @@ public class Game extends Canvas {
             }
             if (State == STATE.MENU) {
                 renderMenu();
+            } else if (State == STATE.HELP) {
+                renderHelp();
             } else if (State == STATE.GAME) {
                 if (_paused) {
                     if (_screenDelay <= 0) {

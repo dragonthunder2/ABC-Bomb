@@ -127,7 +127,6 @@ public class Board implements IRender {
 				break;
 			case 2:
 				_screen.drawChangeLevel(g, _levelLoader.getLevel());
-				//Game.State = Game.STATE.LEVELUP;
 				break;
 		}
 	}
