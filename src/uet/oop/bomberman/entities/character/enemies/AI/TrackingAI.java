@@ -13,7 +13,7 @@ public class TrackingAI extends AI {
     }
 
     @Override
-    public int calculateDirection() {
+    public int AIMovements() {
         if (b == null) {
             return random.nextInt(4);
         }

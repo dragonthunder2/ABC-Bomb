@@ -3,8 +3,8 @@ package uet.oop.bomberman;
 import sun.applet.Main;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.BufferedImageLoader;
-import uet.oop.bomberman.gui.Frame;
-import uet.oop.bomberman.gui.Menu;
+import uet.oop.bomberman.ui.Frame;
+import uet.oop.bomberman.ui.Menu;
 import uet.oop.bomberman.input.Keyboard;
 import uet.oop.bomberman.input.MouseInput;
 

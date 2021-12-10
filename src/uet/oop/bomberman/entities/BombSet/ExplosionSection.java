@@ -16,30 +16,30 @@ public class ExplosionSection extends Entity {
         switch (direction) {
             case 0:
                 if (!lastOf) {
-                    _sprite = Sprite.explosion_vertical2;
+                    _sprite = Sprite.explosion_vertical;
                 } else {
-                    _sprite = Sprite.explosion_vertical_top_last2;
+                    _sprite = Sprite.explosion_vertical_top_last;
                 }
             break;
             case 1:
                 if(!lastOf) {
-                    _sprite = Sprite.explosion_horizontal2;
+                    _sprite = Sprite.explosion_horizontal;
                 } else {
-                    _sprite = Sprite.explosion_horizontal_right_last2;
+                    _sprite = Sprite.explosion_horizontal_right_last;
                 }
                 break;
             case 2:
                 if(!lastOf) {
-                    _sprite = Sprite.explosion_vertical2;
+                    _sprite = Sprite.explosion_vertical;
                 } else {
-                    _sprite = Sprite.explosion_vertical_down_last2;
+                    _sprite = Sprite.explosion_vertical_down_last;
                 }
                 break;
             case 3:
                 if(!lastOf) {
-                    _sprite = Sprite.explosion_horizontal2;
+                    _sprite = Sprite.explosion_horizontal;
                 } else {
-                    _sprite = Sprite.explosion_horizontal_left_last2;
+                    _sprite = Sprite.explosion_horizontal_left_last;
                 }
                 break;
         }

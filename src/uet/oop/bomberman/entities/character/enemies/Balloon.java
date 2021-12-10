@@ -10,12 +10,12 @@ public class Balloon extends Enemy {
         _sprite = Sprite.balloom_left1;
 
         _ai = new RandomAI();
-        _direction = _ai.calculateDirection();
+        direction = _ai.AIMovements();
     }
 
     @Override
     protected void chooseSprite() {
-        switch (_direction) {
+        switch (direction) {
             case 0:
             case 1:
                 _sprite = Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, _animate, 60);

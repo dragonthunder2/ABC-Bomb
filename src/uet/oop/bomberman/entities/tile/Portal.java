@@ -18,7 +18,7 @@ public class Portal extends Tile {
     public boolean collide(Entity e) {
         if (e instanceof Bomber) {
 
-            if (_board.detectNoEnemies() == false)
+            if (!_board.detectNoEnemies())
                 return false;
 
             if (e.getXTile() == getX() && e.getYTile() == getY()) {

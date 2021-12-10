@@ -10,13 +10,13 @@ public class Oneal extends Enemy {
         super(x, y, board, Sprite.oneal_dead, Game.getBomberSpeed(), 200, 2);
         _sprite = Sprite.oneal_left1;
 
-        _ai = new TrackingAI(_board.getBomber(), this);
-        _direction = _ai.calculateDirection();
+        _ai = new TrackingAI(this.board.getBomber(), this);
+        direction = _ai.AIMovements();
     }
 
     @Override
     protected void chooseSprite() {
-        switch (_direction) {
+        switch (direction) {
             case 0:
             case 1:
                 _sprite = Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, _animate, 60);

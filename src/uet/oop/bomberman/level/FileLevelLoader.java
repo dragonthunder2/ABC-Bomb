@@ -19,36 +19,29 @@ import uet.oop.bomberman.entities.tile.Item.FlameItem;
 import uet.oop.bomberman.entities.tile.Item.SpeedItem;
 import uet.oop.bomberman.entities.tile.Portal;
 import uet.oop.bomberman.entities.tile.Wall;
-import uet.oop.bomberman.entities.tile.destroyable.Brick;
-import uet.oop.bomberman.exceptions.LoadLevelException;
+import uet.oop.bomberman.entities.tile.Brick;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class FileLevelLoader extends LevelLoader {
 
-    /**
-     * Ma trận chứa thông tin bản đồ, mỗi phần tử lưu giá trị kí tự đọc được từ
-     * ma trận bản đồ trong tệp cấu hình
-     */
     private static char[][] _map;
 
-    public FileLevelLoader(Board board, int level) throws LoadLevelException {
+    public FileLevelLoader(Board board, int level)  {
         super(board, level);
     }
 
     @Override
     public void loadLevel(int level) {
-        // TODO: đọc dữ liệu từ tệp cấu hình /levels/Level{level}.txt
-        // TODO: cập nhật các giá trị đọc được vào _width, _height, _level, _map
+
         List<String> list = new ArrayList<>();
         try {
-            FileReader fr = new FileReader("res\\levels\\Level" + level + ".txt");//doc tep luu map
+            FileReader fr = new FileReader("res\\levels\\Level" + level + ".txt");
             BufferedReader br = new BufferedReader(fr);
             String line = br.readLine();
             while (!line.equals("")) {
                 list.add(line);
                 line = br.readLine();
-                //doc file txt luu vao list
             }
             br.close();
         } catch (Exception e) {
@@ -64,16 +57,10 @@ public class FileLevelLoader extends LevelLoader {
                 _map[i][j] = list.get(i + 1).charAt(j);
             }
         }
-        //gan cac phan tu cho mang
     }
 
     @Override
     public void createEntities() {
-        // tạo các Entity của màn chơi
-        // sau khi tạo xong, gọi _board.addEntity() để thêm Entity vào game
-
-        // phần code mẫu ở dưới để hướng dẫn cách thêm các loại Entity vào game
-        // hãy xóa nó khi hoàn thành chức năng load màn chơi từ tệp cấu hình
         for (int y = 0; y < getHeight(); y++) {
             for (int x = 0; x < getWidth(); x++) {
                 int pos = x + y * getWidth();

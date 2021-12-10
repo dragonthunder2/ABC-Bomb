@@ -1,12 +1,9 @@
-package uet.oop.bomberman.gui;
+package uet.oop.bomberman.ui;
 
 import uet.oop.bomberman.Game;
-import uet.oop.bomberman.Board;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Swing Frame chứa toàn bộ các component

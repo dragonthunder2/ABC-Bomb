@@ -28,18 +28,26 @@ public class Explosion extends Entity {
     private void createExplosionSections() {
         explosionSections = new ExplosionSection[calculateClearDistance()];
 
-        boolean last = false;
+        boolean last;
 
-        int x = (int)_x;
-        int y = (int)_y;
+        int x = (int) _x;
+        int y = (int) _y;
         for (int i = 0; i < explosionSections.length; i++) {
-            last = i == explosionSections.length -1 ? true : false;
+            last = i == explosionSections.length - 1;
 
             switch (direction) {
-                case 0: y--; break;
-                case 1: x++; break;
-                case 2: y++; break;
-                case 3: x--; break;
+                case 0:
+                    y--;
+                    break;
+                case 1:
+                    x++;
+                    break;
+                case 2:
+                    y++;
+                    break;
+                case 3:
+                    x--;
+                    break;
             }
             explosionSections[i] = new ExplosionSection(x, y, direction, last);
         }
@@ -47,19 +55,19 @@ public class Explosion extends Entity {
 
     private int calculateClearDistance() {
         int _radius = 0;
-        int x = (int)_x;
-        int y = (int)_y;
-        while(_radius < radius) {
-            if(direction == 0) y--;
-            if(direction == 1) x++;
-            if(direction == 2) y++;
-            if(direction == 3) x--;
+        int x = (int) _x;
+        int y = (int) _y;
+        while (_radius < radius) {
+            if (direction == 0) y--;
+            if (direction == 1) x++;
+            if (direction == 2) y++;
+            if (direction == 3) x--;
 
             Entity a = board.getEntity(x, y, null);
 
-            if(a instanceof Bomb) ++_radius;
+            if (a instanceof Bomb) ++_radius;
 
-            if(a.collide(this) == false)
+            if (!a.collide(this))
                 break;
 
             ++_radius;
@@ -69,14 +77,15 @@ public class Explosion extends Entity {
 
     public ExplosionSection explosionSectionIn(int x, int y) {
         for (int i = 0; i < explosionSections.length; i++) {
-            if(explosionSections[i].getX() == x && explosionSections[i].getY() == y)
+            if (explosionSections[i].getX() == x && explosionSections[i].getY() == y)
                 return explosionSections[i];
         }
         return null;
     }
 
     @Override
-    public void update() {}
+    public void update() {
+    }
 
     @Override
     public void render(Screen screen) {
@@ -87,8 +96,8 @@ public class Explosion extends Entity {
 
     @Override
     public boolean collide(Entity e) {
-        if(e instanceof Bomber) ((Bomber) e).kill();
-        if(e instanceof Enemy) ((Enemy) e).kill();
+        if (e instanceof Bomber) ((Bomber) e).kill();
+        if (e instanceof Enemy) ((Enemy) e).kill();
         return true;
     }
 }

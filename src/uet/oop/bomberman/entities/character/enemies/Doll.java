@@ -1,8 +1,6 @@
 package uet.oop.bomberman.entities.character.enemies;
 
 import uet.oop.bomberman.Board;
-import uet.oop.bomberman.Game;
-import uet.oop.bomberman.entities.character.enemies.AI.RandomAI;
 import uet.oop.bomberman.entities.character.enemies.AI.TrackingAI;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -11,13 +9,13 @@ public class Doll extends Enemy {
         super(x, y, board, Sprite.doll_dead, 1.0, 150, 1);
         _sprite = Sprite.doll_left1;
 
-        _ai = new TrackingAI(_board.getBomber(), this);
-        _direction = _ai.calculateDirection();
+        _ai = new TrackingAI(this.board.getBomber(), this);
+        direction = _ai.AIMovements();
     }
 
     @Override
     protected void chooseSprite() {
-        switch (_direction) {
+        switch (direction) {
             case 0:
             case 1:
                 _sprite = Sprite.movingSprite(Sprite.doll_right1, Sprite.doll_right2, Sprite.doll_right3, _animate, 60);

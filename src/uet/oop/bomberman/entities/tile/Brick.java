@@ -1,11 +1,10 @@
-package uet.oop.bomberman.entities.tile.destroyable;
-
+package uet.oop.bomberman.entities.tile;
 
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
 
-public class Brick extends DestroyableTile {
+public class Brick extends Wall {
 	
 	public Brick(int x, int y, Sprite sprite) {
 		super(x, y, sprite);

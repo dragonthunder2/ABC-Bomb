@@ -1,6 +1,6 @@
 package uet.oop.bomberman;
 
-import uet.oop.bomberman.gui.Frame;
+import uet.oop.bomberman.ui.Frame;
 
 public class BombermanGame {
 

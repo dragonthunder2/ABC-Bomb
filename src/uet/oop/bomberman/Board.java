@@ -5,8 +5,7 @@ import uet.oop.bomberman.entities.BombSet.ExplosionSection;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
-import uet.oop.bomberman.exceptions.LoadLevelException;
-import uet.oop.bomberman.graphics.IRender;
+import uet.oop.bomberman.graphics.GraphicInterface;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.input.Keyboard;
 import uet.oop.bomberman.level.FileLevelLoader;
@@ -17,10 +16,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.sun.corba.se.impl.util.Utility.printStackTrace;
+
 /**
  * Quản lý thao tác điều khiển, load level, render các màn hình của game
  */
-public class Board implements IRender {
+public class Board implements GraphicInterface {
 
     protected LevelLoader _levelLoader;
     protected Game _game;
@@ -98,8 +99,8 @@ public class Board implements IRender {
             _entities = new Entity[_levelLoader.getHeight() * _levelLoader.getWidth()];
 
             _levelLoader.createEntities();
-        } catch (LoadLevelException e) {
-            endGame();
+        } catch (Exception e) {
+            printStackTrace();
         }
     }
 
@@ -115,7 +116,6 @@ public class Board implements IRender {
             if (!(character instanceof Bomber))
                 ++total;
         }
-
         return total == 0;
     }
 
@@ -124,11 +124,13 @@ public class Board implements IRender {
             case 1:
                 Game.State = Game.STATE.GAMEOVER;
                 _screen.drawEndGame(g, _points);
+                _points = 0;
                 break;
             case 2:
                 if (_levelLoader.getLevel() > 2) {
                     Game.State = Game.STATE.GAMEOVER;
                     _screen.drawWinGame(g, _points);
+                    _points = 0;
                 } else {
                     _screen.drawChangeLevel(g, _levelLoader.getLevel());
                 }
@@ -282,7 +284,6 @@ public class Board implements IRender {
                 return e;
             }
         }
-
         return null;
     }
 
@@ -299,7 +300,6 @@ public class Board implements IRender {
     }
 
     protected void renderBombs(Screen screen) {
-
         for (Bomb bomb : _bombs) bomb.render(screen);
     }
 

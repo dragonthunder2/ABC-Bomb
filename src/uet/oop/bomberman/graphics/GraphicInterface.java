@@ -1,6 +1,6 @@
 package uet.oop.bomberman.graphics;
 
-public interface IRender {
+public interface GraphicInterface {
 
 	void update();
 	

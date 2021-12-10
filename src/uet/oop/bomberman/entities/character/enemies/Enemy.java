@@ -7,12 +7,9 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.entities.character.enemies.AI.AI;
-import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
-
-import java.awt.*;
 
 public abstract class Enemy extends Character {
     protected int _points;
@@ -39,7 +36,7 @@ public abstract class Enemy extends Character {
         rest = (MAX_STEPS - (int) MAX_STEPS) / MAX_STEPS;
         _steps = MAX_STEPS;
 
-        _timeAfter = 20;
+        timeAfter = 20;
         _deadSprite = dead;
     }
 
@@ -47,22 +44,22 @@ public abstract class Enemy extends Character {
     public void update() {
         animate();
 
-        if(!_alive) {
+        if(!live) {
             afterKill();
             return;
         }
 
-        if(_alive)
+        if(live)
             calculateMove();
     }
 
     @Override
     public void render(Screen screen) {
 
-        if(_alive)
+        if(live)
             chooseSprite();
         else {
-            if(_timeAfter > 0) {
+            if(timeAfter > 0) {
                 _sprite = _deadSprite;
                 _animate = 0;
             } else {
@@ -79,36 +76,36 @@ public abstract class Enemy extends Character {
         int x_pos = 0;
         int y_pos = 0;
         if(_steps <= 0){
-            _direction = _ai.calculateDirection();
+            direction = _ai.AIMovements();
             _steps = MAX_STEPS;
         }
 
-        if(_direction == 0) {
+        if(direction == 0) {
             y_pos--;
         }
-        if(_direction == 2) {
+        if(direction == 2) {
             y_pos++;
         }
-        if(_direction == 3) {
+        if(direction == 3) {
             x_pos--;
         }
-        if(_direction == 1) {
+        if(direction == 1) {
             x_pos++;
         }
 
         if(canMove(x_pos, y_pos)) {
             _steps -= 1 + rest;
             move(x_pos * _speed, y_pos * _speed);
-            _moving = true;
+            moving = true;
         } else {
             _steps = 0;
-            _moving = false;
+            moving = false;
         }
     }
 
     @Override
     public void move(double xa, double ya) {
-        if(!_alive) return;
+        if(!live) return;
         _y += ya;
         _x += xa;
     }
@@ -117,19 +114,19 @@ public abstract class Enemy extends Character {
     public boolean canMove(double x, double y) {
         double xr = _x, yr = _y - 16;
 
-        if(_direction == 0) {
+        if(direction == 0) {
             yr += _sprite.getSize() -1;
             xr += _sprite.getSize()/2;
         }
-        if(_direction == 1) {
+        if(direction == 1) {
             yr += _sprite.getSize()/2;
             xr += 1;
         }
-        if(_direction == 2) {
+        if(direction == 2) {
             xr += _sprite.getSize()/2;
             yr += 1;
         }
-        if(_direction == 3) {
+        if(direction == 3) {
             xr += _sprite.getSize() -1;
             yr += _sprite.getSize()/2;
         }
@@ -137,10 +134,9 @@ public abstract class Enemy extends Character {
         int x_locate = Coordinates.pixelToTile(xr) +(int)x;
         int y_locate = Coordinates.pixelToTile(yr) +(int)y;
 
-        Entity a = _board.getEntity(x_locate, y_locate, this);
+        Entity a = board.getEntity(x_locate, y_locate, this);
 
         return a.collide(this);
-        //return true;
     }
 
     @Override
@@ -162,15 +158,15 @@ public abstract class Enemy extends Character {
     @Override
     public void kill() {
         Game.audioPlay("kill.wav", false);
-        _alive = false;
-        _board.addPoints(_points);
+        live = false;
+        board.addPoints(_points);
     }
 
 
     @Override
     protected void afterKill() {
-        if (_timeAfter > 0) {
-            _timeAfter--;
+        if (timeAfter > 0) {
+            timeAfter--;
         } else {
             if (_finalAnimation > 0) {
                 _finalAnimation--;
