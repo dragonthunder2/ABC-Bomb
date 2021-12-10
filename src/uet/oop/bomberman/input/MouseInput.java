@@ -49,14 +49,17 @@ public class MouseInput implements MouseListener {
         }
 
         if (Game.State == Game.STATE.GAMEOVER) {
-            if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220) {
-                if (mx >= 150 && my <= 200) {
-                    Game.audioPlay("select.wav", false);
-                    Game._paused = false;
-                    Game.getBoard().loadLevel(1);
-                    Game.State = Game.STATE.GAME;
-                }
+            if (mx >= 500 && mx <= 700 && my <= 700 && my >= 650) {
+                Game.audioPlay("select.wav", false);
+                Game._paused = false;
+                Game.getBoard().loadLevel(1);
+                Game.State = Game.STATE.GAME;
+            } else if (mx >= 500 && mx <= 700 && my <= 800 && my >= 720) {
+                Game.audioPlay("select.wav", false);
+                Game.getBoard().loadLevel(1);
+                Game.State = Game.STATE.MENU;
             }
+
         }
 
     }
