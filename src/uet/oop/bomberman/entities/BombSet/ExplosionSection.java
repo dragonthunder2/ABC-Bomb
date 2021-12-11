@@ -54,8 +54,6 @@ public class ExplosionSection extends Entity {
 
     @Override
     public boolean collide(Entity e) {
-        if(e instanceof Bomber) ((Bomber) e).kill();
-        if(e instanceof Enemy) ((Enemy) e).kill();
         return true;
     }
 

@@ -6,7 +6,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Doll extends Enemy {
     public Doll(int x, int y, Board board) {
-        super(x, y, board, Sprite.doll_dead, 1.0, 150, 1);
+        super(x, y, board, Sprite.doll_dead, 0.7, 150, 1);
         _sprite = Sprite.doll_left1;
 
         ai = new TrackingAI(this.board.getBomber(), this);
