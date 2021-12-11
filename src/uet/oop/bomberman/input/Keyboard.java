@@ -16,7 +16,7 @@ public class Keyboard implements KeyListener {
         down = keys[KeyEvent.VK_S];
         left = keys[KeyEvent.VK_A];
         right = keys[KeyEvent.VK_D];
-        space = keys[KeyEvent.VK_X];
+        space = keys[KeyEvent.VK_SPACE];
     }
 
     @Override

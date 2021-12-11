@@ -23,11 +23,11 @@ import uet.oop.bomberman.entities.tile.Brick;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class FileLevelLoader extends LevelLoader {
+public class FileLoadLevel extends LevelLoader {
 
     private static char[][] _map;
 
-    public FileLevelLoader(Board board, int level)  {
+    public FileLoadLevel(Board board, int level)  {
         super(board, level);
     }
 

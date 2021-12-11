@@ -10,8 +10,8 @@ public class Oneal extends Enemy {
         super(x, y, board, Sprite.oneal_dead, Game.getBomberSpeed(), 200, 2);
         _sprite = Sprite.oneal_left1;
 
-        _ai = new TrackingAI(this.board.getBomber(), this);
-        direction = _ai.AIMovements();
+        ai = new TrackingAI(this.board.getBomber(), this);
+        direction = ai.AIMovements();
     }
 
     @Override

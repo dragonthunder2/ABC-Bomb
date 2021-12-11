@@ -12,55 +12,55 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
 
 public abstract class Enemy extends Character {
-    protected int _points;
-    protected double _speed;
-    protected AI _ai;
-    protected int _lives;
+    protected int points;
+    protected double speed;
+    protected AI ai;
+    protected int lives;
 
     protected final double MAX_STEPS;
     protected final double rest;
-    protected double _steps;
+    protected double steps;
 
-    protected int _finalAnimation = 30;
-    protected Sprite _deadSprite;
+    protected int finalAnimation = 30;
+    protected Sprite deadSprite;
     protected int count = 0;
 
     public Enemy(int x, int y, Board board, Sprite dead, double speed, int points, int lives) {
         super(x, y, board);
 
-        _points = points;
-        _speed = speed;
-        _lives = lives;
+        this.points = points;
+        this.speed = speed;
+        this.lives = lives;
 
-        MAX_STEPS = Game.TILES_SIZE / _speed;
+        MAX_STEPS = Game.TILES_SIZE / this.speed;
         rest = (MAX_STEPS - (int) MAX_STEPS) / MAX_STEPS;
-        _steps = MAX_STEPS;
+        steps = MAX_STEPS;
 
         timeAfter = 20;
-        _deadSprite = dead;
+        deadSprite = dead;
     }
 
     @Override
     public void update() {
         animate();
 
-        if(!live) {
+        if (!live) {
             afterKill();
             return;
         }
 
-        if(live)
+        if (live)
             calculateMove();
     }
 
     @Override
     public void render(Screen screen) {
 
-        if(live)
+        if (live)
             chooseSprite();
         else {
-            if(timeAfter > 0) {
-                _sprite = _deadSprite;
+            if (timeAfter > 0) {
+                _sprite = deadSprite;
                 _animate = 0;
             } else {
                 _sprite = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, _animate, 60);
@@ -68,44 +68,44 @@ public abstract class Enemy extends Character {
 
         }
 
-        screen.renderEntity((int)_x, (int)_y - _sprite.SIZE, this);
+        screen.renderEntity((int) _x, (int) _y - _sprite.SIZE, this);
     }
 
     @Override
     public void calculateMove() {
         int x_pos = 0;
         int y_pos = 0;
-        if(_steps <= 0){
-            direction = _ai.AIMovements();
-            _steps = MAX_STEPS;
+        if (steps <= 0) {
+            direction = ai.AIMovements();
+            steps = MAX_STEPS;
         }
 
-        if(direction == 0) {
+        if (direction == 0) {
             y_pos--;
         }
-        if(direction == 2) {
+        if (direction == 2) {
             y_pos++;
         }
-        if(direction == 3) {
+        if (direction == 3) {
             x_pos--;
         }
-        if(direction == 1) {
+        if (direction == 1) {
             x_pos++;
         }
 
-        if(canMove(x_pos, y_pos)) {
-            _steps -= 1 + rest;
-            move(x_pos * _speed, y_pos * _speed);
+        if (canMove(x_pos, y_pos)) {
+            steps -= 1 + rest;
+            move(x_pos * speed, y_pos * speed);
             moving = true;
         } else {
-            _steps = 0;
+            steps = 0;
             moving = false;
         }
     }
 
     @Override
     public void move(double xa, double ya) {
-        if(!live) return;
+        if (!live) return;
         _y += ya;
         _x += xa;
     }
@@ -114,25 +114,25 @@ public abstract class Enemy extends Character {
     public boolean canMove(double x, double y) {
         double xr = _x, yr = _y - 16;
 
-        if(direction == 0) {
-            yr += _sprite.getSize() -1;
-            xr += _sprite.getSize()/2;
+        if (direction == 0) {
+            yr += _sprite.getSize() - 1;
+            xr += _sprite.getSize() / 2;
         }
-        if(direction == 1) {
-            yr += _sprite.getSize()/2;
+        if (direction == 1) {
+            yr += _sprite.getSize() / 2;
             xr += 1;
         }
-        if(direction == 2) {
-            xr += _sprite.getSize()/2;
+        if (direction == 2) {
+            xr += _sprite.getSize() / 2;
             yr += 1;
         }
-        if(direction == 3) {
-            xr += _sprite.getSize() -1;
-            yr += _sprite.getSize()/2;
+        if (direction == 3) {
+            xr += _sprite.getSize() - 1;
+            yr += _sprite.getSize() / 2;
         }
 
-        int x_locate = Coordinates.pixelToTile(xr) +(int)x;
-        int y_locate = Coordinates.pixelToTile(yr) +(int)y;
+        int x_locate = Coordinates.pixelToTile(xr) + (int) x;
+        int y_locate = Coordinates.pixelToTile(yr) + (int) y;
 
         Entity a = board.getEntity(x_locate, y_locate, this);
 
@@ -141,15 +141,15 @@ public abstract class Enemy extends Character {
 
     @Override
     public boolean collide(Entity e) {
-        if (e instanceof Explosion){
+        if (e instanceof Explosion) {
             count++;
-            if (count == _lives) {
+            if (count == lives) {
                 this.kill();
                 return false;
             }
         }
-        if (e instanceof Bomber){
-            ((Bomber)e).kill();
+        if (e instanceof Bomber) {
+            ((Bomber) e).kill();
             return false;
         }
         return true;
@@ -159,7 +159,7 @@ public abstract class Enemy extends Character {
     public void kill() {
         Game.audioPlay("kill.wav", false);
         live = false;
-        board.addPoints(_points);
+        board.addPoints(points);
     }
 
 
@@ -168,8 +168,8 @@ public abstract class Enemy extends Character {
         if (timeAfter > 0) {
             timeAfter--;
         } else {
-            if (_finalAnimation > 0) {
-                _finalAnimation--;
+            if (finalAnimation > 0) {
+                finalAnimation--;
             } else {
                 remove();
             }

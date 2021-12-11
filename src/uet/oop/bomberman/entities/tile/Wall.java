@@ -6,7 +6,6 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Wall extends Tile {
 
-    private final int MAX_ANIMATE = 7500;
     private int _animate = 0;
     protected boolean _destroyed = false;
     protected int _timeToDisapear = 20;
@@ -19,6 +18,7 @@ public class Wall extends Tile {
     @Override
     public void update() {
         if (_destroyed) {
+            int MAX_ANIMATE = 7500;
             if (_animate < MAX_ANIMATE) _animate++;
             else _animate = 0;
             if (_timeToDisapear > 0)

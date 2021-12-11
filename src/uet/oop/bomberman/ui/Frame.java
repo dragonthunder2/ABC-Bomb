@@ -5,25 +5,19 @@ import uet.oop.bomberman.Game;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Swing Frame chứa toàn bộ các component
- */
 public class Frame extends JFrame {
 	
-	public GamePanel _gamepane;
-	private JPanel _containerpane;
-
-	private Game _game;
+	public GamePanel panel;
 
 	public Frame() {
+
+		JPanel container = new JPanel(new BorderLayout());
+		panel = new GamePanel(this);
+		container.add(panel, BorderLayout.PAGE_END);
+
+		Game game = panel.getGame();
 		
-		_containerpane = new JPanel(new BorderLayout());
-		_gamepane = new GamePanel(this);
-		_containerpane.add(_gamepane, BorderLayout.PAGE_END);
-		
-		_game = _gamepane.getGame();
-		
-		add(_containerpane);
+		add(container);
 		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +25,7 @@ public class Frame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);	
 		
-		_game.start();
+		game.start();
 	}
 
 

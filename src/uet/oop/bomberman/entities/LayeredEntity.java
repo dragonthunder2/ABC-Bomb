@@ -10,14 +10,14 @@ import java.util.LinkedList;
  */
 public class LayeredEntity extends Entity {
 
-    protected LinkedList<Entity> _entities = new LinkedList<>();
+    protected LinkedList<Entity> entityLinkedList = new LinkedList<>();
 
     public LayeredEntity(int x, int y, Entity... entities) {
         _x = x;
         _y = y;
 
         for (int i = 0; i < entities.length; i++) {
-            _entities.add(entities[i]);
+            entityLinkedList.add(entities[i]);
 
             if (i > 1) {
                 if (entities[i] instanceof Wall)
@@ -38,14 +38,14 @@ public class LayeredEntity extends Entity {
     }
 
     public Entity getTopEntity() {
-        return _entities.getLast();
+        return entityLinkedList.getLast();
     }
 
     private void clearRemoved() {
         Entity top = getTopEntity();
 
         if (top.isRemoved()) {
-            _entities.removeLast();
+            entityLinkedList.removeLast();
         }
     }
 

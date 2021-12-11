@@ -58,14 +58,14 @@ public class Bomb extends Animation {
     }
 
     public void renderExplosion(Screen screen) {
-        for (int i = 0; i < explosions.length; i++) {
-            explosions[i].render(screen);
+        for (Explosion value : explosions) {
+            value.render(screen);
         }
     }
 
     public void updateFlames() {
-        for (int i = 0; i < explosions.length; i++) {
-            explosions[i].update();
+        for (Explosion value : explosions) {
+            value.update();
         }
     }
 
@@ -91,9 +91,9 @@ public class Bomb extends Animation {
     public ExplosionSection ExplosionIn(int x, int y) {
         if (!explosion) return null;
 
-        for (int i = 0; i < explosions.length; i++) {
-            if (explosions[i] == null) return null;
-            ExplosionSection e = explosions[i].explosionSectionIn(x, y);
+        for (Explosion value : explosions) {
+            if (value == null) return null;
+            ExplosionSection e = value.explosionSectionIn(x, y);
             if (e != null) return e;
         }
 

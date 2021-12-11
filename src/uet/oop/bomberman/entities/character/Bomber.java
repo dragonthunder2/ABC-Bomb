@@ -83,8 +83,7 @@ public class Bomber extends Character {
 
     @Override
     protected void calculateMove() {
-        // TODO: xử lý nhận tín hiệu điều khiển hướng đi từ _input và gọi move() để thực hiện di chuyển
-        // TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
+
         int xa = 0, ya = 0;
         if (input.up) ya--;
         if (input.down) ya++;
@@ -197,7 +196,6 @@ public class Bomber extends Character {
     }
 
     protected void plantBomb(int x, int y) {
-        //TODO: thực hiện tạo đối tượng bom, đặt vào vị trí (x, y)
         Game.audioPlay("bombset.wav", false);
         Bomb b = new Bomb(x, y, board);
         board.addBomb(b);

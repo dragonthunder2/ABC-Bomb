@@ -9,8 +9,8 @@ public class Balloon extends Enemy {
         super(x, y, board, Sprite.balloom_dead, 0.5, 100, 1);
         _sprite = Sprite.balloom_left1;
 
-        _ai = new RandomAI();
-        direction = _ai.AIMovements();
+        ai = new RandomAI();
+        direction = ai.AIMovements();
     }
 
     @Override

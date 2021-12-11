@@ -9,8 +9,8 @@ public class Doll extends Enemy {
         super(x, y, board, Sprite.doll_dead, 1.0, 150, 1);
         _sprite = Sprite.doll_left1;
 
-        _ai = new TrackingAI(this.board.getBomber(), this);
-        direction = _ai.AIMovements();
+        ai = new TrackingAI(this.board.getBomber(), this);
+        direction = ai.AIMovements();
     }
 
     @Override

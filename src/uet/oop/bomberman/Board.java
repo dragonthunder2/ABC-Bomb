@@ -8,7 +8,7 @@ import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.graphics.GraphicInterface;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.input.Keyboard;
-import uet.oop.bomberman.level.FileLevelLoader;
+import uet.oop.bomberman.level.FileLoadLevel;
 import uet.oop.bomberman.level.LevelLoader;
 
 import java.awt.*;
@@ -23,29 +23,29 @@ import static com.sun.corba.se.impl.util.Utility.printStackTrace;
  */
 public class Board implements GraphicInterface {
 
-    protected LevelLoader _levelLoader;
-    protected Game _game;
-    protected Keyboard _input;
-    protected Screen _screen;
+    protected LevelLoader levelLoader;
+    protected Game game;
+    protected Keyboard input;
+    protected Screen screen;
 
     public Entity[] _entities;
     public List<Character> _characters = new ArrayList<>();
 
-    private int _screenToShow = -1; //1:endgame, 2:changelevel, 3:paused
+    private int switchscreen = -1; //1:endgame, 2:changelevel, 3:paused
 
-    private int _points = Game.POINTS;
+    private int points = Game.POINTS;
 
     public Board(Game game, Keyboard input, Screen screen) {
-        _game = game;
-        _input = input;
-        _screen = screen;
+        this.game = game;
+        this.input = input;
+        this.screen = screen;
 
         loadLevel(1); //start in level 1
     }
 
     @Override
     public void update() {
-        if (_game.isPaused()) return;
+        if (game.isPaused()) return;
 
         updateEntities();
         updateCharacters();
@@ -59,7 +59,7 @@ public class Board implements GraphicInterface {
 
     @Override
     public void render(Screen screen) {
-        if (_game.isPaused()) return;
+        if (game.isPaused()) return;
 
         //only render the visible part of screen
         int x0 = Screen.xOffset >> 4; //tile precision, -> left X
@@ -69,7 +69,7 @@ public class Board implements GraphicInterface {
 
         for (int y = y0; y < y1; y++) {
             for (int x = x0; x < x1; x++) {
-                _entities[x + y * _levelLoader.getWidth()].render(screen);
+                _entities[x + y * levelLoader.getWidth()].render(screen);
             }
         }
 
@@ -81,33 +81,33 @@ public class Board implements GraphicInterface {
         Game.setBombRadius(1);
         Game.setBombRate(1);
         Game.setBomberSpeed(1.0);
-        loadLevel(_levelLoader.getLevel() + 1);
+        loadLevel(levelLoader.getLevel() + 1);
     }
 
     public void loadLevel(int level) {
-        _screenToShow = 2;
-        _game.resetScreenDelay();
-        _game.pause();
+        switchscreen = 2;
+        game.resetScreenDelay();
+        game.pause();
         _characters.clear();
-        _bombs.clear();
+        bombs.clear();
         Game.setBombRadius(1);
         Game.setBombRate(1);
         Game.setBomberSpeed(1.0);
 
         try {
-            _levelLoader = new FileLevelLoader(this, level);
-            _entities = new Entity[_levelLoader.getHeight() * _levelLoader.getWidth()];
+            levelLoader = new FileLoadLevel(this, level);
+            _entities = new Entity[levelLoader.getHeight() * levelLoader.getWidth()];
 
-            _levelLoader.createEntities();
+            levelLoader.createEntities();
         } catch (Exception e) {
             printStackTrace();
         }
     }
 
     public void endGame() {
-        _screenToShow = 1;
-        _game.resetScreenDelay();
-        _game.pause();
+        switchscreen = 1;
+        game.resetScreenDelay();
+        game.pause();
     }
 
     public boolean detectNoEnemies() {
@@ -120,19 +120,19 @@ public class Board implements GraphicInterface {
     }
 
     public void drawScreen(Graphics g) {
-        switch (_screenToShow) {
+        switch (switchscreen) {
             case 1:
                 Game.State = Game.STATE.GAMEOVER;
-                _screen.drawEndGame(g, _points);
-                _points = 0;
+                screen.drawEndGame(g, points);
+                points = 0;
                 break;
             case 2:
-                if (_levelLoader.getLevel() > 2) {
+                if (levelLoader.getLevel() > 2) {
                     Game.State = Game.STATE.GAMEOVER;
-                    _screen.drawWinGame(g, _points);
-                    _points = 0;
+                    screen.drawWinGame(g, points);
+                    points = 0;
                 } else {
-                    _screen.drawChangeLevel(g, _levelLoader.getLevel());
+                    screen.drawChangeLevel(g, levelLoader.getLevel());
                 }
                 break;
         }
@@ -140,7 +140,7 @@ public class Board implements GraphicInterface {
 
     public Entity getEntity(double x, double y, Character m) {
 
-        Entity res = null;
+        Entity res;
 
         res = getFlameSegmentAt((int) x, (int) y);
         if (res != null) return res;
@@ -166,7 +166,6 @@ public class Board implements GraphicInterface {
             if (cur instanceof Bomber)
                 return (Bomber) cur;
         }
-
         return null;
     }
 
@@ -190,7 +189,7 @@ public class Board implements GraphicInterface {
     }
 
     public Entity getEntityAt(double x, double y) {
-        return _entities[(int) x + (int) y * _levelLoader.getWidth()];
+        return _entities[(int) x + (int) y * levelLoader.getWidth()];
     }
 
     public void addEntity(int pos, Entity e) {
@@ -215,66 +214,66 @@ public class Board implements GraphicInterface {
     protected void updateCharacters() {
         Iterator<Character> itr = _characters.iterator();
 
-        while (itr.hasNext() && !_game.isPaused())
+        while (itr.hasNext() && !game.isPaused())
             itr.next().update();
     }
 
     public Keyboard getInput() {
-        return _input;
+        return input;
     }
 
     public LevelLoader getLevel() {
-        return _levelLoader;
+        return levelLoader;
     }
 
     public Game getGame() {
-        return _game;
+        return game;
     }
 
     public int getShow() {
-        return _screenToShow;
+        return switchscreen;
     }
 
     public void setShow(int i) {
-        _screenToShow = i;
+        switchscreen = i;
     }
 
     public int getPoints() {
-        return _points;
+        return points;
     }
 
     public void addPoints(int points) {
-        this._points += points;
+        this.points += points;
     }
 
     public int getWidth() {
-        return _levelLoader.getWidth();
+        return levelLoader.getWidth();
     }
 
     public int getHeight() {
-        return _levelLoader.getHeight();
+        return levelLoader.getHeight();
     }
 
     //----------------------Bomb Setup--------------------------------------------------//
 
-    protected List<Bomb> _bombs = new ArrayList<>();
+    protected List<Bomb> bombs = new ArrayList<>();
 
     public List<Bomb> getBombs() {
-        return _bombs;
+        return bombs;
     }
 
     public void addBomb(Bomb e) {
-        _bombs.add(e);
+        bombs.add(e);
     }
 
     protected void updateBombs() {
-        if (_game.isPaused()) return;
+        if (game.isPaused()) return;
 
-        for (Bomb bomb : _bombs) bomb.update();
+        for (Bomb bomb : bombs) bomb.update();
     }
 
     public ExplosionSection getFlameSegmentAt(int x, int y) {
-        Iterator<Bomb> bs = _bombs.iterator();
+        Iterator<Bomb> bs = bombs.iterator();
         Bomb b;
         while (bs.hasNext()) {
             b = bs.next();
@@ -288,19 +287,18 @@ public class Board implements GraphicInterface {
     }
 
     public Bomb getBombAt(double x, double y) {
-        Iterator<Bomb> bs = _bombs.iterator();
+        Iterator<Bomb> bs = bombs.iterator();
         Bomb b;
         while (bs.hasNext()) {
             b = bs.next();
             if (b.getX() == (int) x && b.getY() == (int) y)
                 return b;
         }
-
         return null;
     }
 
     protected void renderBombs(Screen screen) {
-        for (Bomb bomb : _bombs) bomb.render(screen);
+        for (Bomb bomb : bombs) bomb.render(screen);
     }
 
 }

@@ -76,9 +76,9 @@ public class Explosion extends Entity {
     }
 
     public ExplosionSection explosionSectionIn(int x, int y) {
-        for (int i = 0; i < explosionSections.length; i++) {
-            if (explosionSections[i].getX() == x && explosionSections[i].getY() == y)
-                return explosionSections[i];
+        for (ExplosionSection explosionSection : explosionSections) {
+            if (explosionSection.getX() == x && explosionSection.getY() == y)
+                return explosionSection;
         }
         return null;
     }
@@ -89,8 +89,8 @@ public class Explosion extends Entity {
 
     @Override
     public void render(Screen screen) {
-        for (int i = 0; i < explosionSections.length; i++) {
-            explosionSections[i].render(screen);
+        for (ExplosionSection explosionSection : explosionSections) {
+            explosionSection.render(screen);
         }
     }
 
