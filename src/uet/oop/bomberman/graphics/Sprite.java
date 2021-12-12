@@ -1,14 +1,6 @@
 package uet.oop.bomberman.graphics;
-
-import javafx.scene.image.*;
-
-import java.awt.image.BufferedImage;
-import java.nio.IntBuffer;
 import java.util.Arrays;
 
-/**
- * Lưu trữ thông tin các pixel của 1 sprite (hình ảnh game)
- */
 public class Sprite {
 
 	public static final int DEFAULT_SIZE = 16;

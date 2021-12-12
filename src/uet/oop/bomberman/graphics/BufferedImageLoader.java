@@ -6,11 +6,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class BufferedImageLoader {
-    private BufferedImage image;
 
     public BufferedImage loadImage(String Path) throws IOException {
 
-        image = ImageIO.read(Objects.requireNonNull(getClass().getResource(Path)));
-        return image;
+        return ImageIO.read(Objects.requireNonNull(getClass().getResource(Path)));
     }
 }

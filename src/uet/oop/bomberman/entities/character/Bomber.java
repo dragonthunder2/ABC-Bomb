@@ -1,6 +1,6 @@
 package uet.oop.bomberman.entities.character;
 
-import uet.oop.bomberman.Board;
+import uet.oop.bomberman.GameComponents;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.BombSet.Bomb;
 import uet.oop.bomberman.entities.BombSet.Explosion;
@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import uet.oop.bomberman.entities.LayeredEntity;
-import uet.oop.bomberman.level.Coordinates;
+import uet.oop.bomberman.graphics.Location;
 
 public class Bomber extends Character {
 
@@ -22,13 +22,13 @@ public class Bomber extends Character {
 
     protected int bombDelay = 0;
 
-    private List<Bomb> bombs;
+    private final List<Bomb> bombs;
 
-    public Bomber(int x, int y, Board board) {
-        super(x, y, board);
-        input = this.board.getInput();
+    public Bomber(int x, int y, GameComponents gameComponents) {
+        super(x, y, gameComponents);
+        input = this.gameComponents.getInput();
         _sprite = Sprite.player_right;
-        bombs = this.board.getBombs();
+        bombs = this.gameComponents.getBombs();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class Bomber extends Character {
     }
 
     public void calculateXOffset() {
-        int xScroll = Screen.calculateXOffset(board, this);
+        int xScroll = Screen.calculateXOffset(gameComponents, this);
         Screen.setOffset(xScroll, 0);
     }
 
@@ -77,7 +77,7 @@ public class Bomber extends Character {
     protected void afterKill() {
         if (timeAfter > 0) --timeAfter;
         else {
-            board.endGame();
+            gameComponents.endGame();
         }
     }
 
@@ -100,11 +100,11 @@ public class Bomber extends Character {
 
     @Override
     public boolean canMove(double x, double y) {
-        for (int c = 0; c < 4; c++) { //colision detection for each corner of the player
-            double xt = ((_x + x) + c % 2 * 9) / Game.TILES_SIZE; //divide with tiles size to pass to tile coordinate
-            double yt = ((_y + y) + c / 2 * 10 - 13) / Game.TILES_SIZE; //these values are the best from multiple tests
+        for (int c = 0; c < 4; c++) {
+            double xt = ((_x + x) + c % 2 * 9) / Game.TILES_SIZE;
+            double yt = ((_y + y) + c / 2 * 10 - 13) / Game.TILES_SIZE;
 
-            Entity a = board.getEntity(xt, yt, this);
+            Entity a = gameComponents.getEntity(xt, yt, this);
 
             if (!a.collide(this))
                 return false;
@@ -120,7 +120,7 @@ public class Bomber extends Character {
         if (ya > 0) direction = 2;
         if (ya < 0) direction = 0;
 
-        if (canMove(0, ya)) { //separate the moves for the player can slide when is colliding
+        if (canMove(0, ya)) {
             _y += ya;
         }
 
@@ -182,8 +182,8 @@ public class Bomber extends Character {
     private void placeBombConfirm() {
         if (input.space && Game.getBombRate() > 0 && bombDelay < 0) {
 
-            int xt = Coordinates.pixelToTile(_x + _sprite.getSize() / 2);
-            int yt = Coordinates.pixelToTile((_y + _sprite.getSize() / 2) - _sprite.getSize());
+            int xt = Location.pixelToTile(_x + _sprite.getSize() / 2);
+            int yt = Location.pixelToTile((_y + _sprite.getSize() / 2) - _sprite.getSize());
 
             plantBomb(xt, yt);
             Game.addBombRate(-1);
@@ -194,8 +194,8 @@ public class Bomber extends Character {
 
     protected void plantBomb(int x, int y) {
         Game.audioPlay("bombset.wav", false);
-        Bomb b = new Bomb(x, y, board);
-        board.addBomb(b);
+        Bomb b = new Bomb(x, y, gameComponents);
+        gameComponents.addBomb(b);
     }
 
     private void bombsClear() {

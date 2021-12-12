@@ -1,15 +1,15 @@
 package uet.oop.bomberman.level;
 
-import uet.oop.bomberman.Board;
+import uet.oop.bomberman.GameComponents;
 
 public abstract class LevelLoader {
 
 	protected int _width = 20, _height = 20;
 	protected int _level;
-	protected Board _board;
+	protected GameComponents _gameComponents;
 
-	public LevelLoader(Board board, int level)  {
-		_board = board;
+	public LevelLoader(GameComponents gameComponents, int level)  {
+		_gameComponents = gameComponents;
 		loadLevel(level);
 	}
 

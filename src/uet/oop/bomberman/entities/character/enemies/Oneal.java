@@ -1,16 +1,16 @@
 package uet.oop.bomberman.entities.character.enemies;
 
-import uet.oop.bomberman.Board;
+import uet.oop.bomberman.GameComponents;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.character.enemies.AI.TrackingAI;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Oneal extends Enemy {
-    public Oneal(int x, int y, Board board) {
-        super(x, y, board, Sprite.oneal_dead, Game.getBomberSpeed(), 200, 2);
+    public Oneal(int x, int y, GameComponents gameComponents) {
+        super(x, y, gameComponents, Sprite.oneal_dead, Game.getBomberSpeed(), 200, 2);
         _sprite = Sprite.oneal_left1;
 
-        ai = new TrackingAI(this.board.getBomber(), this);
+        ai = new TrackingAI(this.gameComponents.getBomber(), this);
         direction = ai.AIMovements();
     }
 

@@ -2,7 +2,7 @@ package uet.oop.bomberman.entities.tile;
 
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.level.Coordinates;
+import uet.oop.bomberman.graphics.Location;
 
 public class Brick extends Wall {
 	
@@ -17,8 +17,8 @@ public class Brick extends Wall {
 	
 	@Override
 	public void render(Screen screen) {
-		int x = Coordinates.tileToPixel(_x);
-		int y = Coordinates.tileToPixel(_y);
+		int x = Location.tileToPixel(_x);
+		int y = Location.tileToPixel(_y);
 		
 		if(_destroyed) {
 			_sprite = movingSprite(Sprite.brick_exploded, Sprite.brick_exploded1, Sprite.brick_exploded2);

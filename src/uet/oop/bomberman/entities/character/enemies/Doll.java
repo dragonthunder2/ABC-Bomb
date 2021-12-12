@@ -1,15 +1,15 @@
 package uet.oop.bomberman.entities.character.enemies;
 
-import uet.oop.bomberman.Board;
+import uet.oop.bomberman.GameComponents;
 import uet.oop.bomberman.entities.character.enemies.AI.TrackingAI;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Doll extends Enemy {
-    public Doll(int x, int y, Board board) {
-        super(x, y, board, Sprite.doll_dead, 0.7, 150, 1);
+    public Doll(int x, int y, GameComponents gameComponents) {
+        super(x, y, gameComponents, Sprite.doll_dead, 0.7, 150, 1);
         _sprite = Sprite.doll_left1;
 
-        ai = new TrackingAI(this.board.getBomber(), this);
+        ai = new TrackingAI(this.gameComponents.getBomber(), this);
         direction = ai.AIMovements();
     }
 

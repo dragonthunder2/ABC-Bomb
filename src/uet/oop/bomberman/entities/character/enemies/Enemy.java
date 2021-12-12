@@ -1,6 +1,6 @@
 package uet.oop.bomberman.entities.character.enemies;
 
-import uet.oop.bomberman.Board;
+import uet.oop.bomberman.GameComponents;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.BombSet.Explosion;
 import uet.oop.bomberman.entities.Entity;
@@ -9,7 +9,7 @@ import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.entities.character.enemies.AI.AI;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.level.Coordinates;
+import uet.oop.bomberman.graphics.Location;
 
 public abstract class Enemy extends Character {
     protected int points;
@@ -25,8 +25,8 @@ public abstract class Enemy extends Character {
     protected Sprite deadSprite;
     protected int count = 0;
 
-    public Enemy(int x, int y, Board board, Sprite dead, double speed, int points, int lives) {
-        super(x, y, board);
+    public Enemy(int x, int y, GameComponents gameComponents, Sprite dead, double speed, int points, int lives) {
+        super(x, y, gameComponents);
 
         this.points = points;
         this.speed = speed;
@@ -39,6 +39,9 @@ public abstract class Enemy extends Character {
         timeAfter = 20;
         deadSprite = dead;
     }
+
+    protected abstract void chooseSprite();
+
 
     @Override
     public void update() {
@@ -131,10 +134,10 @@ public abstract class Enemy extends Character {
             yr += _sprite.getSize() / 2;
         }
 
-        int x_locate = Coordinates.pixelToTile(xr) + (int) x;
-        int y_locate = Coordinates.pixelToTile(yr) + (int) y;
+        int x_locate = Location.pixelToTile(xr) + (int) x;
+        int y_locate = Location.pixelToTile(yr) + (int) y;
 
-        Entity a = board.getEntity(x_locate, y_locate, this);
+        Entity a = gameComponents.getEntity(x_locate, y_locate, this);
 
         return a.collide(this);
     }
@@ -159,7 +162,7 @@ public abstract class Enemy extends Character {
     public void kill() {
         Game.audioPlay("kill.wav", false);
         live = false;
-        board.addPoints(points);
+        gameComponents.addPoints(points);
     }
 
 
@@ -176,5 +179,4 @@ public abstract class Enemy extends Character {
         }
     }
 
-    protected abstract void chooseSprite();
 }

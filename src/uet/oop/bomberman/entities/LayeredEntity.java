@@ -5,9 +5,6 @@ import uet.oop.bomberman.graphics.Screen;
 
 import java.util.LinkedList;
 
-/**
- * Entity inside other entity
- */
 public class LayeredEntity extends Entity {
 
     protected LinkedList<Entity> entityLinkedList = new LinkedList<>();

@@ -1,12 +1,12 @@
 package uet.oop.bomberman.entities.character.enemies;
 
-import uet.oop.bomberman.Board;
+import uet.oop.bomberman.GameComponents;
 import uet.oop.bomberman.entities.character.enemies.AI.RandomAI;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Balloon extends Enemy {
-    public Balloon(int x, int y, Board board) {
-        super(x, y, board, Sprite.balloom_dead, 0.5, 100, 1);
+    public Balloon(int x, int y, GameComponents gameComponents) {
+        super(x, y, gameComponents, Sprite.balloom_dead, 0.5, 100, 1);
         _sprite = Sprite.balloom_left1;
 
         ai = new RandomAI();

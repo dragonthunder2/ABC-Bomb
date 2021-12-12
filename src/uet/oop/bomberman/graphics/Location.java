@@ -1,8 +1,8 @@
-package uet.oop.bomberman.level;
+package uet.oop.bomberman.graphics;
 
 import uet.oop.bomberman.Game;
 
-public class Coordinates {
+public class Location {
 	
 	public static int pixelToTile(double i) {
 		return (int)(i / Game.TILES_SIZE);

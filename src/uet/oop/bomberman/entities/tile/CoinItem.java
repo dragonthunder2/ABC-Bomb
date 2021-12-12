@@ -1,17 +1,17 @@
 package uet.oop.bomberman.entities.tile;
 
-import uet.oop.bomberman.Board;
+import uet.oop.bomberman.GameComponents;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class CoinItem extends Tile {
-    protected Board _board;
+    protected GameComponents _gameComponents;
 
-    public CoinItem(int x, int y, Board board, Sprite sprite) {
+    public CoinItem(int x, int y, GameComponents gameComponents, Sprite sprite) {
         super(x, y, sprite);
-        _board = board;
+        _gameComponents = gameComponents;
     }
 
     @Override

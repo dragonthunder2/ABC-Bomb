@@ -12,6 +12,9 @@ public class GamePanel extends JPanel {
 
 	private Game game;
 
+	public Game getGame() {
+		return game;
+	}
 
 	public GamePanel(Frame frame) {
 		setLayout(new BorderLayout());
@@ -27,9 +30,4 @@ public class GamePanel extends JPanel {
 		setFocusable(true);
 		
 	}
-
-	public Game getGame() {
-		return game;
-	}
-	
 }

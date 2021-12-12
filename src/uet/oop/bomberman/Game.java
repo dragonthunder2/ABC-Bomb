@@ -34,7 +34,6 @@ public class Game extends Canvas {
     private static final int BOMBRADIUS = 1;
     private static final double BOMBERSPEED = 1.0;//toc do bomber
 
-    public static final int TIME = 200;
     public static final int POINTS = 0;
     private String highScore = "";
 
@@ -47,19 +46,18 @@ public class Game extends Canvas {
 
     protected int _screenDelay = SCREENDELAY;
 
-    private Keyboard _input;
-    private boolean _running = false;
+    private final Keyboard _input;
     public static boolean _paused = true;
 
-    public static Board _board;
+    public static GameComponents _gameComponents;
     public static Screen screen;
-    private Frame _frame;
+    private final Frame _frame;
 
-    private Menu menu;
+    private final Menu menu;
 
-    private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    private final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private BufferedImage background = null;
-    private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+    private final int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
     public enum STATE {
         MENU,
@@ -70,6 +68,122 @@ public class Game extends Canvas {
 
     public static STATE State = STATE.MENU;
 
+    public void checkScore() {
+        if (_gameComponents.getPoints() > Integer.parseInt(highScore)) {
+            highScore = "" + _gameComponents.getPoints();
+            File scoreFile = new File("highscore.txt");
+            if (!scoreFile.exists()) {
+                try {
+                    scoreFile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            FileWriter writeFile;
+            BufferedWriter writer = null;
+            try {
+                writeFile = new FileWriter(scoreFile);
+                writer = new BufferedWriter(writeFile);
+                writer.write(this.highScore);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (writer != null)
+                        writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public String getHighScore() {
+        FileReader readFile;
+        BufferedReader reader = null;
+        try {
+            readFile = new FileReader("highscore.txt");
+            reader = new BufferedReader(readFile);
+            return reader.readLine();
+        } catch (Exception e) {
+            return "0";
+        } finally {
+            try {
+                if (reader != null)
+                    reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void audioPlay(String music, boolean loop) {
+        try {
+            Clip clip = AudioSystem.getClip();
+            AudioInputStream input = AudioSystem.getAudioInputStream(
+                    Main.class.getResourceAsStream("/sound/" + music));
+            clip.open(input);
+            if (loop) {
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } else {
+                clip.loop(0);
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    public static double getBomberSpeed() {
+        return bomberSpeed;
+    }
+
+    public static void addBombRadius(int i) {
+        bombRadius += i;
+    }
+
+    public static void addBomberSpeed(double i) {
+        bomberSpeed += i;
+    }
+
+    public static int getBombRadius() {
+        return bombRadius;
+    }
+
+    public static void setBomberSpeed(double bomberSpeed) {
+        Game.bomberSpeed = bomberSpeed;
+    }
+
+    public static int getBombRate() {
+        return bombRate;
+    }
+
+    public static void setBombRadius(int bombRadius) {
+        Game.bombRadius = bombRadius;
+    }
+
+    public static void setBombRate(int bombRate) {
+        Game.bombRate = bombRate;
+    }
+
+    public static void addBombRate(int i) {
+        bombRate += i;
+    }
+
+    public void resetScreenDelay() {
+        _screenDelay = SCREENDELAY;
+    }
+
+    public static GameComponents getBoard() {
+        return _gameComponents;
+    }
+
+    public boolean isPaused() {
+        return _paused;
+    }
+
+    public void pause() {
+        _paused = true;
+    }
+
     public Game(Frame frame) {
         _frame = frame;
         _frame.setTitle(TITLE);
@@ -77,7 +191,7 @@ public class Game extends Canvas {
         screen = new Screen(WIDTH, HEIGHT);
         _input = new Keyboard();
 
-        _board = new Board(this, _input, screen);
+        _gameComponents = new GameComponents(this, _input, screen);
         menu = new Menu();
         addKeyListener(_input);
         addMouseListener(new MouseInput());
@@ -143,12 +257,10 @@ public class Game extends Canvas {
         screen.clear();
         if (State == STATE.GAME) {
 
-            _board.render(screen);
+            _gameComponents.render(screen);
         }
 
-        for (int i = 0; i < pixels.length; i++) {
-            pixels[i] = screen._pixels[i];
-        }
+        System.arraycopy(screen._pixels, 0, pixels, 0, pixels.length);
 
         Graphics g = bs.getDrawGraphics();
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
@@ -168,7 +280,7 @@ public class Game extends Canvas {
         Font font = new Font("Arial", Font.BOLD, 30);
         g.setFont(font);
         g.setColor(Color.white);
-        g.drawString("SCORE: " + _board.getPoints(), 20, 30);
+        g.drawString("SCORE: " + _gameComponents.getPoints(), 20, 30);
 
         g.dispose();
         bs.show();
@@ -182,33 +294,29 @@ public class Game extends Canvas {
         }
         screen.clear();
         Graphics g = bs.getDrawGraphics();
-        _board.drawScreen(g);
+        _gameComponents.drawScreen(g);
         g.dispose();
         bs.show();
     }
 
     private void update() {
         _input.update();
-        _board.update();
+        _gameComponents.update();
     }
 
     public void start() {
-        _running = true;
 
         long lastTime = System.nanoTime();
         long timer = System.currentTimeMillis();
-        final double ns = 1000000000.0 / 60.0; //nanosecond, 60 frames per second
+        final double ns = 1000000000.0 / 60.0;
         double delta = 0;
-        int frames = 0;
-        int updates = 0;
         requestFocus();
-        while (_running) {
+        while (true) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
             while (delta >= 1) {
                 update();
-                updates++;
                 delta--;
             }
             if (State == STATE.MENU) {
@@ -218,7 +326,7 @@ public class Game extends Canvas {
             } else if (State == STATE.GAME) {
                 if (_paused) {
                     if (_screenDelay <= 0) {
-                        _board.setShow(-1);
+                        _gameComponents.setShow(-1);
                         _paused = false;
                     }
                     renderScreen();
@@ -226,135 +334,16 @@ public class Game extends Canvas {
                     renderGame();
                 }
 
-                frames++;
                 if (System.currentTimeMillis() - timer > 1000) {
                     timer += 1000;
                     _frame.setTitle(TITLE);
-                    updates = 0;
-                    frames = 0;
 
-                    if (_board.getShow() == 2)
+                    if (_gameComponents.getShow() == 2)
                         --_screenDelay;
                 }
             }
         }
     }
 
-    public void checkScore() {
-        if (_board.getPoints() > Integer.parseInt(highScore)) {
-            highScore = "" + _board.getPoints();
-            File scoreFile = new File("highscore.txt");
-            if (!scoreFile.exists()) {
-                try {
-                    scoreFile.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            FileWriter writeFile = null;
-            BufferedWriter writer = null;
-            try {
-                writeFile = new FileWriter(scoreFile);
-                writer = new BufferedWriter(writeFile);
-                writer.write(this.highScore);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (writer != null)
-                        writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
-    public String getHighScore() {
-        FileReader readFile;
-        BufferedReader reader = null;
-        try {
-            readFile = new FileReader("highscore.txt");
-            reader = new BufferedReader(readFile);
-            return reader.readLine();
-        } catch (Exception e) {
-            return "0";
-        } finally {
-            try {
-                if (reader != null)
-                    reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void audioPlay(String music, boolean loop) {
-        try {
-            Clip clip = AudioSystem.getClip();
-            AudioInputStream input = AudioSystem.getAudioInputStream(
-                    Main.class.getResourceAsStream("/sound/" + music));
-            clip.open(input);
-            if (loop) {
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } else {
-                clip.loop(0);
-            }
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    public void resetScreenDelay() {
-        _screenDelay = SCREENDELAY;
-    }
-
-    public static Board getBoard() {
-        return _board;
-    }
-
-    public boolean isPaused() {
-        return _paused;
-    }
-
-    public void pause() {
-        _paused = true;
-    }
-
-    //--------------------------Bomb Setup----------------------------------------------------//
-    public static void addBombRadius(int i) {
-        bombRadius += i;
-    }
-
-    public static double getBomberSpeed() {
-        return bomberSpeed;
-    }
-
-    public static void addBomberSpeed(double i) {
-        bomberSpeed += i;
-    }
-
-    public static void setBomberSpeed(double bomberSpeed) {
-        Game.bomberSpeed = bomberSpeed;
-    }
-
-    public static int getBombRadius() {
-        return bombRadius;
-    }
-
-    public static void setBombRadius(int bombRadius) {
-        Game.bombRadius = bombRadius;
-    }
-
-    public static int getBombRate() {
-        return bombRate;
-    }
-
-    public static void setBombRate(int bombRate) {
-        Game.bombRate = bombRate;
-    }
-
-    public static void addBombRate(int i) {
-        bombRate += i;
-    }
 }

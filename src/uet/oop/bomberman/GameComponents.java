@@ -18,10 +18,7 @@ import java.util.List;
 
 import static com.sun.corba.se.impl.util.Utility.printStackTrace;
 
-/**
- * Quản lý thao tác điều khiển, load level, render các màn hình của game
- */
-public class Board implements GraphicInterface {
+public class GameComponents implements GraphicInterface {
 
     protected LevelLoader levelLoader;
     protected Game game;
@@ -31,16 +28,32 @@ public class Board implements GraphicInterface {
     public Entity[] _entities;
     public List<Character> _characters = new ArrayList<>();
 
-    private int switchscreen = -1; //1:endgame, 2:changelevel, 3:paused
+    private int switchscreen = -1;
 
     private int points = Game.POINTS;
 
-    public Board(Game game, Keyboard input, Screen screen) {
+    public int getPoints() {
+        return points;
+    }
+
+    public void addPoints(int points) {
+        this.points += points;
+    }
+
+    public void setShow(int i) {
+        switchscreen = i;
+    }
+
+    public int getWidth() {
+        return levelLoader.getWidth();
+    }
+
+    public GameComponents(Game game, Keyboard input, Screen screen) {
         this.game = game;
         this.input = input;
         this.screen = screen;
 
-        loadLevel(1); //start in level 1
+        loadLevel(1);
     }
 
     @Override
@@ -61,18 +74,15 @@ public class Board implements GraphicInterface {
     public void render(Screen screen) {
         if (game.isPaused()) return;
 
-        //only render the visible part of screen
-        int x0 = Screen.xOffset >> 4; //tile precision, -> left X
-        int x1 = (Screen.xOffset + screen.getWidth() + Game.TILES_SIZE) / Game.TILES_SIZE; // -> right X
+        int x0 = Screen.xOffset >> 4;
+        int x1 = (Screen.xOffset + screen.getWidth() + Game.TILES_SIZE) / Game.TILES_SIZE;
         int y0 = Screen.yOffset >> 4;
-        int y1 = (Screen.yOffset + screen.getHeight()) / Game.TILES_SIZE; //render one tile plus to fix black margins
-
+        int y1 = (Screen.yOffset + screen.getHeight()) / Game.TILES_SIZE;
         for (int y = y0; y < y1; y++) {
             for (int x = x0; x < x1; x++) {
                 _entities[x + y * levelLoader.getWidth()].render(screen);
             }
         }
-
         renderCharacter(screen);
         renderBombs(screen);
     }
@@ -111,12 +121,12 @@ public class Board implements GraphicInterface {
     }
 
     public boolean detectNoEnemies() {
-        int total = 0;
+        int count = 0;
         for (Character character : _characters) {
             if (!(character instanceof Bomber))
-                ++total;
+                ++count;
         }
-        return total == 0;
+        return count == 0;
     }
 
     public void drawScreen(Graphics g) {
@@ -222,10 +232,6 @@ public class Board implements GraphicInterface {
         return input;
     }
 
-    public LevelLoader getLevel() {
-        return levelLoader;
-    }
-
     public Game getGame() {
         return game;
     }
@@ -234,25 +240,6 @@ public class Board implements GraphicInterface {
         return switchscreen;
     }
 
-    public void setShow(int i) {
-        switchscreen = i;
-    }
-
-    public int getPoints() {
-        return points;
-    }
-
-    public void addPoints(int points) {
-        this.points += points;
-    }
-
-    public int getWidth() {
-        return levelLoader.getWidth();
-    }
-
-    public int getHeight() {
-        return levelLoader.getHeight();
-    }
 
     //----------------------Bomb Setup--------------------------------------------------//
 

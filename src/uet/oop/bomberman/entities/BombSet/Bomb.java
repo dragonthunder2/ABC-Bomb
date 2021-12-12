@@ -1,6 +1,6 @@
 package uet.oop.bomberman.entities.BombSet;
 
-import uet.oop.bomberman.Board;
+import uet.oop.bomberman.GameComponents;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Animation;
 import uet.oop.bomberman.entities.Entity;
@@ -8,22 +8,22 @@ import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.level.Coordinates;
+import uet.oop.bomberman.graphics.Location;
 
 public class Bomb extends Animation {
     public int explodeTime = 20;
     protected double countDown = 125;
 
-    protected Board board;
+    protected GameComponents gameComponents;
     protected Explosion[] explosions;
 
     protected boolean explosion = false;
     protected boolean ableToPass = true;
 
-    public Bomb(int x, int y, Board board) {
+    public Bomb(int x, int y, GameComponents gameComponents) {
         this._x = x;
         this._y = y;
-        this.board = board;
+        this.gameComponents = gameComponents;
         this._sprite = Sprite.bomb;
     }
 
@@ -73,13 +73,13 @@ public class Bomb extends Animation {
     protected void explode() {
         explosion = true;
         ableToPass = true;
-        Character x = board.getCharacterAtExcluding((int) _x, (int) _y, null);
+        Character x = gameComponents.getCharacterAtExcluding((int) _x, (int) _y, null);
         if (x != null) {
             x.kill();
         }
         explosions = new Explosion[4];
         for (int i = 0; i < explosions.length; i++) {
-            explosions[i] = new Explosion((int) _x, (int) _y, i, Game.getBombRadius(), board);
+            explosions[i] = new Explosion((int) _x, (int) _y, i, Game.getBombRadius(), gameComponents);
         }
         Game.audioPlay("explosion.wav", false);
     }
@@ -103,8 +103,8 @@ public class Bomb extends Animation {
     @Override
     public boolean collide(Entity e) {
         if (e instanceof Bomber) {
-            double diffX = e.getX() - Coordinates.tileToPixel(getX());
-            double diffY = e.getY() - Coordinates.tileToPixel(getY());
+            double diffX = e.getX() - Location.tileToPixel(getX());
+            double diffY = e.getY() - Location.tileToPixel(getY());
 
             if (!(diffX >= -10 && diffX < 16 && diffY >= 1 && diffY <= 28)) {
                 ableToPass = false;
