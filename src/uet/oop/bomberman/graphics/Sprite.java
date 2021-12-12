@@ -4,8 +4,6 @@ import java.util.Arrays;
 public class Sprite {
 
 	public static final int DEFAULT_SIZE = 16;
-	public static final int SCALED_SIZE = DEFAULT_SIZE * 2;
-	private static final int TRANSPARENT_COLOR = 0xffff00ff;
 	public final int SIZE;
 	private int _x, _y;
 	public int[] _pixels;
@@ -13,25 +11,12 @@ public class Sprite {
 	protected int _realHeight;
 	private SpriteSheet _sheet;
 
-	/*
-	|--------------------------------------------------------------------------
-	| Board sprites
-	|--------------------------------------------------------------------------
-	 */
 	public static Sprite grass = new Sprite(DEFAULT_SIZE, 6, 0, SpriteSheet.tiles, 16, 16);
 	public static Sprite brick = new Sprite(DEFAULT_SIZE, 7, 0, SpriteSheet.tiles, 16, 16);
 	public static Sprite wall = new Sprite(DEFAULT_SIZE, 5, 0, SpriteSheet.tiles, 16, 16);
 	public static Sprite portal = new Sprite(DEFAULT_SIZE, 4, 0, SpriteSheet.tiles, 14, 14);
 	public static Sprite coin = new Sprite(DEFAULT_SIZE, 8, 10, SpriteSheet.tiles, 14, 14);
 
-
-
-
-	/*
-	|--------------------------------------------------------------------------
-	| Bomber Sprites
-	|--------------------------------------------------------------------------
-	 */
 	public static Sprite player_up = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.tiles, 12, 16);
 	public static Sprite player_down = new Sprite(DEFAULT_SIZE, 2, 0, SpriteSheet.tiles, 12, 15);
 	public static Sprite player_left = new Sprite(DEFAULT_SIZE, 3, 0, SpriteSheet.tiles, 10, 15);
@@ -51,12 +36,6 @@ public class Sprite {
 
 	public static Sprite player_dead1 = new Sprite(DEFAULT_SIZE, 4, 2, SpriteSheet.tiles, 14, 16);
 
-	/*
-	|--------------------------------------------------------------------------
-	| Character
-	|--------------------------------------------------------------------------
-	 */
-	//BALLOON
 	public static Sprite balloom_left1 = new Sprite(DEFAULT_SIZE, 9, 0, SpriteSheet.tiles, 16, 16);
 	public static Sprite balloom_left2 = new Sprite(DEFAULT_SIZE, 9, 1, SpriteSheet.tiles, 16, 16);
 	public static Sprite balloom_left3 = new Sprite(DEFAULT_SIZE, 9, 2, SpriteSheet.tiles, 16, 16);
@@ -94,11 +73,6 @@ public class Sprite {
 	public static Sprite mob_dead2 = new Sprite(DEFAULT_SIZE, 15, 1, SpriteSheet.tiles, 16, 16);
 	public static Sprite mob_dead3 = new Sprite(DEFAULT_SIZE, 15, 2, SpriteSheet.tiles, 16, 16);
 
-	/*
-	|--------------------------------------------------------------------------
-	| Bomb Sprites
-	|--------------------------------------------------------------------------
-	 */
 	public static Sprite bomb = new Sprite(DEFAULT_SIZE, 0, 3, SpriteSheet.tiles, 15, 15);
 	public static Sprite bomb_1 = new Sprite(DEFAULT_SIZE, 1, 3, SpriteSheet.tiles, 13, 15);
 	public static Sprite bomb_2 = new Sprite(DEFAULT_SIZE, 2, 3, SpriteSheet.tiles, 12, 14);
@@ -111,20 +85,10 @@ public class Sprite {
 	public static Sprite explosion_vertical_top_last = new Sprite(DEFAULT_SIZE, 3, 4, SpriteSheet.tiles, 16, 16);
 	public static Sprite explosion_vertical_down_last = new Sprite(DEFAULT_SIZE, 3, 6, SpriteSheet.tiles, 16, 16);
 
-	/*
-	|--------------------------------------------------------------------------
-	| Brick FlameSegment
-	|--------------------------------------------------------------------------
-	 */
 	public static Sprite brick_exploded = new Sprite(DEFAULT_SIZE, 7, 1, SpriteSheet.tiles, 16, 16);
 	public static Sprite brick_exploded1 = new Sprite(DEFAULT_SIZE, 7, 2, SpriteSheet.tiles, 16, 16);
 	public static Sprite brick_exploded2 = new Sprite(DEFAULT_SIZE, 7, 3, SpriteSheet.tiles, 16, 16);
 
-	/*
-	|--------------------------------------------------------------------------
-	| Powerups
-	|--------------------------------------------------------------------------
-	 */
 	public static Sprite powerup_bombs = new Sprite(DEFAULT_SIZE, 0, 10, SpriteSheet.tiles, 16, 16);
 	public static Sprite powerup_flames = new Sprite(DEFAULT_SIZE, 1, 10, SpriteSheet.tiles, 16, 16);
 	public static Sprite powerup_speed = new Sprite(DEFAULT_SIZE, 2, 10, SpriteSheet.tiles, 16, 16);

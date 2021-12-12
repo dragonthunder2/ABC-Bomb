@@ -129,20 +129,20 @@ public class GameComponents implements GraphicInterface {
         return count == 0;
     }
 
-    public void drawScreen(Graphics g) {
+    public void setShow(Graphics g) {
         switch (switchscreen) {
             case 1:
                 Game.State = Game.STATE.GAMEOVER;
-                screen.drawEndGame(g, points);
+                screen.gameOver(g, points);
                 points = 0;
                 break;
             case 2:
                 if (levelLoader.getLevel() > 2) {
                     Game.State = Game.STATE.GAMEOVER;
-                    screen.drawWinGame(g, points);
+                    screen.gameWin(g, points);
                     points = 0;
                 } else {
-                    screen.drawChangeLevel(g, levelLoader.getLevel());
+                    screen.stageChange(g, levelLoader.getLevel());
                 }
                 break;
         }

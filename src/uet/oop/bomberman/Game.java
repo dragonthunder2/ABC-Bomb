@@ -294,7 +294,7 @@ public class Game extends Canvas {
         }
         screen.clear();
         Graphics g = bs.getDrawGraphics();
-        _gameComponents.drawScreen(g);
+        _gameComponents.setShow(g);
         g.dispose();
         bs.show();
     }
