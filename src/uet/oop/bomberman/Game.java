@@ -299,11 +299,6 @@ public class Game extends Canvas {
         bs.show();
     }
 
-    private void update() {
-        _input.update();
-        _gameComponents.update();
-    }
-
     public void start() {
 
         long lastTime = System.nanoTime();
@@ -345,5 +340,9 @@ public class Game extends Canvas {
         }
     }
 
+    private void update() {
+        _input.update();
+        _gameComponents.update();
+    }
 
 }

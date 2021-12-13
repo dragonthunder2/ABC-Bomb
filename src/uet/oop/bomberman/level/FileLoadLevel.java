@@ -33,34 +33,6 @@ public class FileLoadLevel extends LevelLoader {
     }
 
     @Override
-    public void loadLevel(int level) {
-
-        List<String> list = new ArrayList<>();
-        try {
-            FileReader fr = new FileReader("res\\levels\\Level" + level + ".txt");
-            BufferedReader br = new BufferedReader(fr);
-            String line = br.readLine();
-            while (!line.equals("")) {
-                list.add(line);
-                line = br.readLine();
-            }
-            br.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String[] arrays = list.get(0).trim().split(" ");
-        _level = Integer.parseInt(arrays[0]);
-        _height = Integer.parseInt(arrays[1]);
-        _width = Integer.parseInt(arrays[2]);
-        _map = new char[_height][_width];
-        for (int i = 0; i < _height; i++) {
-            for (int j = 0; j < _width; j++) {
-                _map[i][j] = list.get(i + 1).charAt(j);
-            }
-        }
-    }
-
-    @Override
     public void createEntities() {
         for (int y = 0; y < getHeight(); y++) {
             for (int x = 0; x < getWidth(); x++) {
@@ -132,6 +104,34 @@ public class FileLoadLevel extends LevelLoader {
                         _gameComponents.addEntity(pos, new Grass(x, y, Sprite.grass));
                         break;
                 }
+            }
+        }
+    }
+
+    @Override
+    public void loadLevel(int level) {
+
+        List<String> list = new ArrayList<>();
+        try {
+            FileReader fr = new FileReader("res\\levels\\Level" + level + ".txt");
+            BufferedReader br = new BufferedReader(fr);
+            String line = br.readLine();
+            while (!line.equals("")) {
+                list.add(line);
+                line = br.readLine();
+            }
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String[] arrays = list.get(0).trim().split(" ");
+        _level = Integer.parseInt(arrays[0]);
+        _height = Integer.parseInt(arrays[1]);
+        _width = Integer.parseInt(arrays[2]);
+        _map = new char[_height][_width];
+        for (int i = 0; i < _height; i++) {
+            for (int j = 0; j < _width; j++) {
+                _map[i][j] = list.get(i + 1).charAt(j);
             }
         }
     }

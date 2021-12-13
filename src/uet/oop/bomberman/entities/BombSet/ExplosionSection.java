@@ -44,11 +44,7 @@ public class ExplosionSection extends Entity {
     }
 
     @Override
-    public void render(Screen screen) {
-        int x1 = (int)_x << 4;
-        int y2 = (int)_y << 4;
-        screen.renderEntity(x1, y2 , this);
-    }
+    public void update() {}
 
     @Override
     public boolean collide(Entity e) {
@@ -56,5 +52,10 @@ public class ExplosionSection extends Entity {
     }
 
     @Override
-    public void update() {}
+    public void render(Screen screen) {
+        int x1 = (int)_x << 4;
+        int y2 = (int)_y << 4;
+        screen.renderEntity(x1, y2 , this);
+    }
+
 }

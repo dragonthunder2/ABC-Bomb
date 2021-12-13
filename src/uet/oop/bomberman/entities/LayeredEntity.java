@@ -9,6 +9,12 @@ public class LayeredEntity extends Entity {
 
     protected LinkedList<Entity> entityLinkedList = new LinkedList<>();
 
+    @Override
+    public void update() {
+        clearRemoved();
+        getTopEntity().update();
+    }
+
     public LayeredEntity(int x, int y, Entity... entities) {
         _x = x;
         _y = y;
@@ -23,17 +29,6 @@ public class LayeredEntity extends Entity {
         }
     }
 
-    @Override
-    public void update() {
-        clearRemoved();
-        getTopEntity().update();
-    }
-
-    @Override
-    public void render(Screen screen) {
-        getTopEntity().render(screen);
-    }
-
     public Entity getTopEntity() {
         return entityLinkedList.getLast();
     }
@@ -44,6 +39,11 @@ public class LayeredEntity extends Entity {
         if (top.isRemoved()) {
             entityLinkedList.removeLast();
         }
+    }
+
+    @Override
+    public void render(Screen screen) {
+        getTopEntity().render(screen);
     }
 
     @Override

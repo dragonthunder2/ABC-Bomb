@@ -24,6 +24,8 @@ public abstract class Character extends Animation {
 	@Override
 	public abstract void render(Screen screen);
 
+	protected abstract boolean canMove(double x, double y);
+
 	protected abstract void calculateMove();
 	
 	protected abstract void move(double xa, double ya);
@@ -31,7 +33,5 @@ public abstract class Character extends Animation {
 	public abstract void kill();
 
 	protected abstract void afterKill();
-
-	protected abstract boolean canMove(double x, double y);
 
 }

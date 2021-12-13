@@ -43,6 +43,11 @@ public class Screen {
         Arrays.fill(_pixels, 0);
     }
 
+    public static void setOffset(int xO, int yO) {
+        xOffset = xO;
+        yOffset = yO;
+    }
+
     public void renderEntity(int xp, int yp, Entity entity) {
         xp -= xOffset;
         yp -= yOffset;
@@ -58,7 +63,6 @@ public class Screen {
             }
         }
     }
-
 
     public void renderEntityWithBelowSprite(int xp, int yp, Entity entity, Sprite below) {
         xp -= xOffset;
@@ -79,11 +83,6 @@ public class Screen {
         }
     }
 
-    public static void setOffset(int xO, int yO) {
-        xOffset = xO;
-        yOffset = yO;
-    }
-
     public static int calculateXOffset(GameComponents gameComponents, Bomber bomber) {
         if (bomber == null) return 0;
         int temp = xOffset;
@@ -99,12 +98,6 @@ public class Screen {
         return temp;
     }
 
-    public void setCenter(String s, int w, int h, Graphics g) {
-        FontMetrics fm = g.getFontMetrics();
-        int x = (w - fm.stringWidth(s)) / 2;
-        int y = (fm.getAscent() + (h - (fm.getAscent() + fm.getDescent())) / 2);
-        g.drawString(s, x, y);
-    }
 
     public void stageChange(Graphics g, int level) {
         g.setColor(Color.black);
@@ -113,7 +106,7 @@ public class Screen {
         Font font = new Font("Arial", Font.PLAIN, 20 * Game.SCALE);
         g.setFont(font);
         g.setColor(Color.white);
-        setCenter("STAGE " + level, getRealWidth(), getRealHeight(), g);
+        g.drawString("STAGE " + level, 400, 550);
     }
 
     public void gameOver(Graphics g, int points) {
@@ -138,12 +131,12 @@ public class Screen {
         Font font = new Font("Arial", Font.PLAIN, 20 * Game.SCALE);
         g.setFont(font);
         g.setColor(Color.white);
-        setCenter("GAME OVER", getRealWidth(), getRealHeight(), g);
+        g.drawString("GAME OVER", 320, 550);
 
         font = new Font("Arial", Font.PLAIN, 10 * Game.SCALE);
         g.setFont(font);
         g.setColor(Color.yellow);
-        setCenter("SCORE: " + points, getRealWidth(), getRealHeight() + (Game.TILES_SIZE * 2) * Game.SCALE, g);
+        g.drawString("SCORE: " + points, 490, 610);
     }
 
     public void gameWin(Graphics g, int points) {
@@ -168,12 +161,13 @@ public class Screen {
         Font font = new Font("Arial", Font.PLAIN, 20 * Game.SCALE);
         g.setFont(font);
         g.setColor(Color.white);
-        setCenter("YOU WON!!!", getRealWidth(), getRealHeight(), g);
+        g.drawString("YOU WON!!!", 320, 550);
+
 
         font = new Font("Arial", Font.PLAIN, 10 * Game.SCALE);
         g.setFont(font);
         g.setColor(Color.yellow);
-        setCenter("SCORE: " + points, getRealWidth(), getRealHeight() + (Game.TILES_SIZE * 2) * Game.SCALE, g);
+        g.drawString("SCORE: " + points, 490, 610);
     }
 
 }

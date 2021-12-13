@@ -192,12 +192,6 @@ public class Bomber extends Character {
         }
     }
 
-    protected void plantBomb(int x, int y) {
-        Game.audioPlay("bombset.wav", false);
-        Bomb b = new Bomb(x, y, gameComponents);
-        gameComponents.addBomb(b);
-    }
-
     private void bombsClear() {
         Iterator<Bomb> bs = bombs.iterator();
 
@@ -211,4 +205,11 @@ public class Bomber extends Character {
         }
 
     }
+
+    protected void plantBomb(int x, int y) {
+        Game.audioPlay("bombset.wav", false);
+        Bomb b = new Bomb(x, y, gameComponents);
+        gameComponents.addBomb(b);
+    }
+
 }

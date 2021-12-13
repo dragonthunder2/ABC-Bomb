@@ -76,7 +76,6 @@ public class Explosion extends Entity {
         }
     }
 
-
     public ExplosionSection explosionSectionIn(int x, int y) {
         for (ExplosionSection explosionSection : explosionSections) {
             if (explosionSection.getX() == x && explosionSection.getY() == y)

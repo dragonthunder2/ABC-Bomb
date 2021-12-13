@@ -32,12 +32,6 @@ public class Wall extends Tile {
         _destroyed = true;
     }
 
-    @Override
-    public boolean collide(Entity e) {
-        if (e instanceof Explosion) destroy();
-        return false;
-    }
-
     public void addBelowSprite(Sprite sprite) {
         _belowSprite = sprite;
     }
@@ -53,6 +47,12 @@ public class Wall extends Tile {
             return x1;
         }
         return x2;
+    }
+
+    @Override
+    public boolean collide(Entity e) {
+        if (e instanceof Explosion) destroy();
+        return false;
     }
 
 }

@@ -11,6 +11,10 @@ public abstract class Entity implements GraphicInterface {
 	protected double _x, _y;
 	protected boolean _removed = false;
 
+	@Override
+	public abstract void update();
+
+
 	public void remove() {
 		_removed = true;
 	}
@@ -42,11 +46,6 @@ public abstract class Entity implements GraphicInterface {
 	}
 
 	@Override
-	public abstract void update();
-
-	@Override
 	public abstract void render(Screen screen);
-
-
     
 }
